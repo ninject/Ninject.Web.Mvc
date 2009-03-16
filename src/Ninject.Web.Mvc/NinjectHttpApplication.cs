@@ -88,7 +88,7 @@ namespace Ninject.Web.Mvc
 		public void RegisterAllControllersIn(Assembly assembly, Func<Type, string> namingConvention)
 		{
 			foreach (Type type in assembly.GetExportedTypes().Where(IsController))
-				_kernel.Bind<IController>().To(type).Named(namingConvention(type));
+				_kernel.Bind<IController>().To(type).InTransientScope().Named(namingConvention(type));
 		}
 
 		private static bool IsController(Type type)
