@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Ninject.Infrastructure;
 
 namespace Ninject.Web.Mvc
@@ -30,7 +31,13 @@ namespace Ninject.Web.Mvc
 			lock (this)
 			{
 				_kernel = CreateKernel();
+
+				_kernel.Bind<RouteCollection>().ToConstant(RouteTable.Routes);
+				_kernel.Bind<HttpContext>().ToMethod(ctx => HttpContext.Current).InRequestScope();
+				_kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InRequestScope();
+				
 				ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory(_kernel));
+
 				OnApplicationStarted();
 			}
 		}
