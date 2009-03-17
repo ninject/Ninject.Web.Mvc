@@ -31,7 +31,7 @@ namespace Ninject.Web.Mvc
 		/// <returns>The created controller.</returns>
 		public IController CreateController(RequestContext requestContext, string controllerName)
 		{
-			return Kernel.TryGet<IController>(controllerName);
+			return Kernel.TryGet<IController>(controllerName.ToLowerInvariant());
 		}
 
 		/// <summary>
