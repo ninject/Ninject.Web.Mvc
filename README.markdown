@@ -1,5 +1,6 @@
-This extension allows integration between the Ninject core and ASP.NET MVC projects.
-To use it, just make your HttpApplication (typically in Global.asax.cs) extend NinjectHttpApplication:
+This extension allows integration between the [Ninject core](http://github.com/enkari/ninject/)
+and [ASP.NET MVC](http://www.asp.net/mvc/) projects. To use it, just make your HttpApplication
+(typically in Global.asax.cs) extend NinjectHttpApplication:
 
     public class YourWebApplication : NinjectHttpApplication
     {
