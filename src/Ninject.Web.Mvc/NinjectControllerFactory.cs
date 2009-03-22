@@ -31,7 +31,14 @@ namespace Ninject.Web.Mvc
 		/// <returns>The created controller.</returns>
 		public IController CreateController(RequestContext requestContext, string controllerName)
 		{
-			return Kernel.TryGet<IController>(controllerName.ToLowerInvariant());
+			var controller = Kernel.TryGet<IController>(controllerName.ToLowerInvariant());
+
+			var standardController = controller as Controller;
+
+			if (standardController != null)
+				standardController.ActionInvoker = new NinjectActionInvoker(Kernel);
+
+			return controller;
 		}
 
 		/// <summary>

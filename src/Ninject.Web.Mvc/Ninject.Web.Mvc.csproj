@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NinjectActionInvoker.cs" />
     <Compile Include="NinjectControllerFactory.cs" />
     <Compile Include="NinjectHttpApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
