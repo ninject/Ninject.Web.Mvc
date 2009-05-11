@@ -38,6 +38,8 @@ namespace Ninject.Web.Mvc
 				
 				ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory(_kernel));
 
+				_kernel.Inject(this);
+
 				OnApplicationStarted();
 			}
 		}
