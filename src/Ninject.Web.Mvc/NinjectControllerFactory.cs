@@ -24,30 +24,23 @@ namespace Ninject.Web.Mvc
 		}
 
 		/// <summary>
-		/// Creates the controller with the specified name.
+		/// Gets a controller instance of type controllerType.
 		/// </summary>
-		/// <param name="requestContext">The request context.</param>
-		/// <param name="controllerName">Name of the controller.</param>
-		/// <returns>The created controller.</returns>
-		public override IController CreateController(RequestContext requestContext, string controllerName)
+		/// <param name="controllerType">Type of controller to create.</param>
+		/// <returns>The controller instance.</returns>
+		protected override IController GetControllerInstance( Type controllerType )
 		{
-			var controller = Kernel.TryGet<IController>(controllerName.ToLowerInvariant());
+			var controller = Kernel.TryGet( controllerType ) as IController;
 
-			if (controller == null)
-				return base.CreateController(requestContext, controllerName);
+			if( controller == null )
+				return base.GetControllerInstance( controllerType );
 
 			var standardController = controller as Controller;
 
-			if (standardController != null)
-				standardController.ActionInvoker = new NinjectActionInvoker(Kernel);
+			if( standardController != null )
+				standardController.ActionInvoker = new NinjectActionInvoker( Kernel );
 
 			return controller;
 		}
-
-		/// <summary>
-		/// Releases the specified controller.
-		/// </summary>
-		/// <param name="controller">The controller to release.</param>
-		public override void ReleaseController(IController controller) { }
 	}
 }

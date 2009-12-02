@@ -36,7 +36,7 @@ namespace Ninject.Web.Mvc
 				_kernel.Bind<HttpContext>().ToMethod(ctx => HttpContext.Current).InRequestScope();
 				_kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InRequestScope();
 				
-				ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory(_kernel));
+				ControllerBuilder.Current.SetControllerFactory(CreateControllerFactory());
 
 				_kernel.Inject(this);
 
@@ -120,6 +120,15 @@ namespace Ninject.Web.Mvc
 		/// </summary>
 		/// <returns>The created kernel.</returns>
 		protected abstract IKernel CreateKernel();
+
+		/// <summary>
+		/// Creates the controller factory that is used to create the controllers.
+		/// </summary>
+		/// <returns>The created controller factory.</returns>
+		protected virtual NinjectControllerFactory CreateControllerFactory()
+		{
+			return new NinjectControllerFactory( Kernel );
+		}
 
 		/// <summary>
 		/// Called when the application is started.
