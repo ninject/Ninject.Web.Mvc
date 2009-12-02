@@ -38,9 +38,18 @@ namespace Ninject.Web.Mvc
 			var standardController = controller as Controller;
 
 			if( standardController != null )
-				standardController.ActionInvoker = new NinjectActionInvoker( Kernel );
+				standardController.ActionInvoker = CreateActionInvoker();
 
 			return controller;
+		}
+
+		/// <summary>
+		/// Creates the action invoker.
+		/// </summary>
+		/// <returns>The action invoker.</returns>
+		protected virtual NinjectActionInvoker CreateActionInvoker()
+		{
+			return new NinjectActionInvoker( Kernel );
 		}
 	}
 }
