@@ -1,6 +1,16 @@
+#region License
+// 
+// Authors: Nate Kohari <nate@enkari.com>, Josh Close <narshe@gmail.com>
+// Copyright (c) 2007-2009, Enkari, Ltd.
+// 
+// Dual-licensed under the Apache License, Version 2.0, and the Microsoft Public License (Ms-PL).
+// See the file LICENSE.txt for details.
+// 
+#endregion
+#region Using Directives
 using System;
 using System.Web.Mvc;
-using System.Web.Routing;
+#endregion
 
 namespace Ninject.Web.Mvc
 {
@@ -24,30 +34,32 @@ namespace Ninject.Web.Mvc
 		}
 
 		/// <summary>
-		/// Creates the controller with the specified name.
+		/// Gets a controller instance of type controllerType.
 		/// </summary>
-		/// <param name="requestContext">The request context.</param>
-		/// <param name="controllerName">Name of the controller.</param>
-		/// <returns>The created controller.</returns>
-		public override IController CreateController(RequestContext requestContext, string controllerName)
+		/// <param name="controllerType">Type of controller to create.</param>
+		/// <returns>The controller instance.</returns>
+		protected override IController GetControllerInstance(Type controllerType)
 		{
-			var controller = Kernel.TryGet<IController>(controllerName.ToLowerInvariant());
+			var controller = Kernel.TryGet(controllerType) as IController;
 
 			if (controller == null)
-				return base.CreateController(requestContext, controllerName);
+				return base.GetControllerInstance(controllerType);
 
 			var standardController = controller as Controller;
 
 			if (standardController != null)
-				standardController.ActionInvoker = new NinjectActionInvoker(Kernel);
+				standardController.ActionInvoker = CreateActionInvoker();
 
 			return controller;
 		}
 
 		/// <summary>
-		/// Releases the specified controller.
+		/// Creates the action invoker.
 		/// </summary>
-		/// <param name="controller">The controller to release.</param>
-		public override void ReleaseController(IController controller) { }
+		/// <returns>The action invoker.</returns>
+		protected virtual NinjectActionInvoker CreateActionInvoker()
+		{
+			return new NinjectActionInvoker(Kernel);
+		}
 	}
 }
