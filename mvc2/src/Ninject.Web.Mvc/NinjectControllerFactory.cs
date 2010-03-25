@@ -42,6 +42,12 @@ namespace Ninject.Web.Mvc
 		/// <returns>The controller instance.</returns>
 		protected override IController GetControllerInstance(RequestContext requestContext, Type controllerType)
 		{
+			if(controllerType == null)
+			{
+				// let the base handle 404 errors with proper culture information
+				return base.GetControllerInstance(requestContext, controllerType);
+			}
+
 			var controller = Kernel.TryGet(controllerType) as IController;
 
 			if (controller == null)
