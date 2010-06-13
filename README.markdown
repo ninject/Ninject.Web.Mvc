@@ -1,4 +1,4 @@
-This extension allows integration between the [Ninject core](http://github.com/enkari/ninject/)
+This extension allows integration between the [Ninject core](http://github.com/ninject/ninject/)
 and [ASP.NET MVC](http://www.asp.net/mvc/) projects. To use it, just make your HttpApplication
 (typically in Global.asax.cs) extend NinjectHttpApplication:
 
@@ -6,6 +6,7 @@ and [ASP.NET MVC](http://www.asp.net/mvc/) projects. To use it, just make your H
     {
       public override void OnApplicationStarted()
       {
+        // This is only needed in MVC1
         RegisterAllControllersIn("Some.Assembly.Name");
       }
     
