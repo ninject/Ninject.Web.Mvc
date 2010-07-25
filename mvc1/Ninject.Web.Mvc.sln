@@ -1,12 +1,12 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ninject.Web.Mvc", "src\Ninject.Web.Mvc\Ninject.Web.Mvc.csproj", "{82222179-0EB8-4C43-AD48-6EA388349C64}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{77BE2A9F-F61F-45D4-A5C5-1DF0DA05EA42}"
 	ProjectSection(SolutionItems) = preProject
 		README.markdown = README.markdown
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ninject.Web.Mvc", "src\Ninject.Web.Mvc\Ninject.Web.Mvc.csproj", "{82222179-0EB8-4C43-AD48-6EA388349C64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
