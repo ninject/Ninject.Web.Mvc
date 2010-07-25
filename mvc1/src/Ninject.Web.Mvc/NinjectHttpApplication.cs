@@ -44,8 +44,8 @@ namespace Ninject.Web.Mvc
 				_kernel = CreateKernel();
 
 				_kernel.Bind<RouteCollection>().ToConstant(RouteTable.Routes);
-				_kernel.Bind<HttpContext>().ToMethod(ctx => HttpContext.Current).InRequestScope();
-				_kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InRequestScope();
+                _kernel.Bind<HttpContext>().ToMethod(ctx => HttpContext.Current).InTransientScope();
+                _kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InTransientScope();
 				
 				ControllerBuilder.Current.SetControllerFactory(CreateControllerFactory());
 
