@@ -15,19 +15,14 @@
             An object that notifies when it is disposed.
             </summary>
         </member>
-        <member name="T:Ninject.Infrastructure.Disposal.INotifyWhenDisposed">
+        <member name="T:Ninject.Infrastructure.Disposal.IDisposableObject">
             <summary>
-            An object that fires an event when it is disposed.
+            An object that can report whether or not it is disposed.
             </summary>
         </member>
-        <member name="P:Ninject.Infrastructure.Disposal.INotifyWhenDisposed.IsDisposed">
+        <member name="P:Ninject.Infrastructure.Disposal.IDisposableObject.IsDisposed">
             <summary>
             Gets a value indicating whether this instance is disposed.
-            </summary>
-        </member>
-        <member name="E:Ninject.Infrastructure.Disposal.INotifyWhenDisposed.Disposed">
-            <summary>
-            Occurs when the object is disposed.
             </summary>
         </member>
         <member name="M:Ninject.Infrastructure.Disposal.DisposableObject.Dispose">
@@ -48,11 +43,6 @@
         <member name="P:Ninject.Infrastructure.Disposal.DisposableObject.IsDisposed">
             <summary>
             Gets a value indicating whether this instance is disposed.
-            </summary>
-        </member>
-        <member name="E:Ninject.Infrastructure.Disposal.DisposableObject.Disposed">
-            <summary>
-            Occurs when the object is disposed.
             </summary>
         </member>
         <member name="T:Ninject.Activation.Blocks.IActivationBlock">
@@ -92,11 +82,26 @@
             <param name="isUnique"><c>True</c> if the request should return a unique result; otherwise, <c>false</c>.</param>
             <returns>The created request.</returns>
         </member>
+        <member name="T:Ninject.Infrastructure.Disposal.INotifyWhenDisposed">
+            <summary>
+            An object that fires an event when it is disposed.
+            </summary>
+        </member>
+        <member name="E:Ninject.Infrastructure.Disposal.INotifyWhenDisposed.Disposed">
+            <summary>
+            Occurs when the object is disposed.
+            </summary>
+        </member>
         <member name="M:Ninject.Activation.Blocks.ActivationBlock.#ctor(Ninject.Syntax.IResolutionRoot)">
             <summary>
             Initializes a new instance of the <see cref="T:Ninject.Activation.Blocks.ActivationBlock"/> class.
             </summary>
             <param name="parent">The parent resolution root.</param>
+        </member>
+        <member name="M:Ninject.Activation.Blocks.ActivationBlock.Dispose(System.Boolean)">
+            <summary>
+            Releases resources held by the object.
+            </summary>
         </member>
         <member name="M:Ninject.Activation.Blocks.ActivationBlock.CanResolve(Ninject.Activation.IRequest)">
             <summary>
@@ -127,6 +132,11 @@
         <member name="P:Ninject.Activation.Blocks.ActivationBlock.Parent">
             <summary>
             Gets or sets the parent resolution root (usually the kernel).
+            </summary>
+        </member>
+        <member name="E:Ninject.Activation.Blocks.ActivationBlock.Disposed">
+            <summary>
+            Occurs when the object is disposed.
             </summary>
         </member>
         <member name="T:Ninject.Activation.Caching.Cache">
@@ -355,7 +365,7 @@
         </member>
         <member name="M:Ninject.Activation.Providers.CallbackProvider`1.#ctor(System.Func{Ninject.Activation.IContext,`0})">
             <summary>
-            Initializes a new instance of the <see cref="T:Ninject.Activation.Providers.CallbackProvider`1"/> class.
+            Initializes a new instance of the CallbackProvider&lt;T&gt; class.
             </summary>
             <param name="method">The callback method that will be called to create instances.</param>
         </member>
@@ -379,7 +389,7 @@
         </member>
         <member name="M:Ninject.Activation.Providers.ConstantProvider`1.#ctor(`0)">
             <summary>
-            Initializes a new instance of the <see cref="T:Ninject.Activation.Providers.ConstantProvider`1"/> class.
+            Initializes a new instance of the ConstantProvider&lt;T&gt; class.
             </summary>
             <param name="value">The value that the provider should return.</param>
         </member>
@@ -1189,7 +1199,7 @@
         </member>
         <member name="M:Ninject.Infrastructure.Future`1.#ctor(System.Func{`0})">
             <summary>
-            Initializes a new instance of the <see cref="T:Ninject.Infrastructure.Future`1"/> class.
+            Initializes a new instance of the Future&lt;T&gt; class.
             </summary>
             <param name="callback">The callback that will be triggered to read the value.</param>
         </member>
@@ -2358,7 +2368,7 @@
         </member>
         <member name="M:Ninject.Planning.Bindings.BindingBuilder`1.#ctor(Ninject.Planning.Bindings.IBinding,Ninject.IKernel)">
             <summary>
-            Initializes a new instance of the <see cref="T:Ninject.Planning.Bindings.BindingBuilder`1"/> class.
+            Initializes a new instance of the BindingBuilder&lt;T&gt; class.
             </summary>
             <param name="binding">The binding to build.</param>
             <param name="kernel">The kernel.</param>
@@ -2713,7 +2723,7 @@
         </member>
         <member name="M:Ninject.Planning.Directives.MethodInjectionDirectiveBase`2.#ctor(`0,`1)">
             <summary>
-            Initializes a new instance of the <see cref="T:Ninject.Planning.Directives.MethodInjectionDirectiveBase`2"/> class.
+            Initializes a new instance of the MethodInjectionDirectiveBase&lt;TMethod, TInjector&gt; class.
             </summary>
             <param name="method">The method this directive represents.</param>
             <param name="injector">The injector that will be triggered.</param>
@@ -2936,7 +2946,7 @@
         </member>
         <member name="M:Ninject.Planning.Targets.Target`1.#ctor(System.Reflection.MemberInfo,`0)">
             <summary>
-            Initializes a new instance of the <see cref="T:Ninject.Planning.Targets.Target`1"/> class.
+            Initializes a new instance of the Target&lt;T&gt; class.
             </summary>
             <param name="member">The member that contains the target.</param>
             <param name="site">The site represented by the target.</param>
