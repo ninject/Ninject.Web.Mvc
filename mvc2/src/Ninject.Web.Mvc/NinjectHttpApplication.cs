@@ -60,9 +60,9 @@ namespace Ninject.Web.Mvc
 		}
 
 		/// <summary>
-		/// Stops the application.
+		/// Releases the kernel on application end.
 		/// </summary>
-		public void Application_Stop()
+        public void Application_End()
 		{
 			lock (this)
 			{
