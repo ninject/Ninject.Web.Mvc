@@ -85,6 +85,12 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ControllerMissingBindingResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FilterInjector.cs" />
+    <Compile Include="IFilterInjector.cs" />
+    <Compile Include="NinjectAsyncActionInvoker.cs" />
     <Compile Include="NinjectActionInvoker.cs" />
     <Compile Include="NinjectControllerFactory.cs" />
     <Compile Include="NinjectHttpApplication.cs" />

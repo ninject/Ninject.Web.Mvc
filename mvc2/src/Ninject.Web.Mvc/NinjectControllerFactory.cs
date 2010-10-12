@@ -1,4 +1,3 @@
-#region License
 // 
 // Authors: Nate Kohari <nate@enkari.com>, Josh Close <narshe@gmail.com>
 // Copyright (c) 2007-2009, Enkari, Ltd.
@@ -6,16 +5,14 @@
 // Dual-licensed under the Apache License, Version 2.0, and the Microsoft Public License (Ms-PL).
 // See the file LICENSE.txt for details.
 // 
-#endregion
-#region Using Directives
-using System;
-using System.Web.Mvc;
-using System.Web.Routing;
-#endregion
 
 namespace Ninject.Web.Mvc
 {
-	/// <summary>
+    using System;
+    using System.Web.Mvc;
+    using System.Web.Routing;
+    
+    /// <summary>
 	/// A controller factory that creates <see cref="IController"/>s via Ninject.
 	/// </summary>
 	public class NinjectControllerFactory : DefaultControllerFactory
@@ -53,14 +50,23 @@ namespace Ninject.Web.Mvc
 			if (controller == null)
 				return base.GetControllerInstance(requestContext, controllerType);
 
-			var standardController = controller as Controller;
-
-			if (standardController != null)
-				standardController.ActionInvoker = CreateActionInvoker();
+            /*
+            var asyncController = controller as AsyncController;
+            if (asyncController != null)
+            {
+                asyncController.ActionInvoker = this.CreateAsyncActionInvoker();
+            }
+            else
+            {
+                var standardController = controller as Controller;
+                if (standardController != null)
+                    standardController.ActionInvoker = CreateActionInvoker();
+            }*/
 
 			return controller;
 		}
 
+        /*
 		/// <summary>
 		/// Creates the action invoker.
 		/// </summary>
@@ -69,5 +75,14 @@ namespace Ninject.Web.Mvc
 		{
 			return new NinjectActionInvoker(Kernel);
 		}
-	}
+
+        /// <summary>
+        /// Creates the action invoker.
+        /// </summary>
+        /// <returns>The action invoker.</returns>
+        protected virtual NinjectAsyncActionInvoker CreateAsyncActionInvoker()
+        {
+            return new NinjectAsyncActionInvoker(Kernel);
+        }*/
+    }
 }
