@@ -1,0 +1,32 @@
+1. Get the Ninject version for which you want to build this extension. Compiled versions can be found on Build Server: 
+   http://teamcity.codebetter.com/viewType.html?tab=buildTypeStatusDiv&buildTypeId=bt243
+2. Copy all the zipped ninject files to lib/Ninject
+3. Get Ninject.Extensions.ContextPreservation e.g. from the build server
+   http://teamcity.codebetter.com/viewType.html?buildTypeId=bt245&tab=buildTypeStatusDiv
+   and copy all the zip files to /lib/Ninject.Extensions.ContextPreservation
+4. Get Ninject.Extensions.NamedScope e.g. from the build server
+   http://teamcity.codebetter.com/viewType.html?buildTypeId=bt246&tab=buildTypeStatusDiv
+   and copy all the zip files to /lib/Ninject.Extensions.NamedScope
+5. Run UnzipDependencies.cmd
+6. Run build-release.cmd
+
+If you are trying to build for a particular platform, please download and install the respective SDKs:
+    WP7: you need the Windows Phone Developer tools (http://create.msdn.com/en-us/home/getting_started).
+    .NET Compact Framework 3.5: you need .NET Compact Framework 3.5 Redistributable - http://www.microsoft.com/downloads/details.aspx?FamilyID=e3821449-3c6b-42f1-9fd9-0041345b3385
+    Microsoft® Silverlight™ 2: http://www.microsoft.com/downloads/details.aspx?FamilyID=8d933343-038f-499c-986c-c3c7e87a60b3
+    Microsoft® Silverlight™ 3: http://www.microsoft.com/downloads/details.aspx?FamilyID=1ea49236-0de7-41b1-81c8-a126ff39975b
+    Microsoft® Silverlight™ 4: follow directions on this page: http://www.silverlight.net/getstarted
+    Mono 2.X : http://www.go-mono.com/mono-downloads/download.html
+
+This rest of this file is only needed if you are running the NAnt scripts provided.
+
+If you do not need to run Microsoft® Silverlight™ unit tests, simply pass "-D:skip.silverlightTests=true" in the build command to skip them.
+
+If you would like to run Microsoft® Silverlight™ tests, you need to allow the creation of a local service host and need to follow the steps outlined below.
+Before building the first time you have to perform the following steps:
+1. Run cmd.exe as Administrator.
+2. Enter the following command in the command prompt putting in your own domain and user name:
+   netsh http add urlacl url=http://+:8887/ user=DOMAIN\user
+   or this should do it for you
+   netsh http add urlacl url=http://+:8887/ user=%UserDomain%\%UserName%
+3. If it worked, you should see "URL reservation successfully added" in the command window.

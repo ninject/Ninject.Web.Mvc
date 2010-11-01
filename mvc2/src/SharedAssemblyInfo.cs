@@ -12,10 +12,10 @@ using System.Runtime.InteropServices;
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: AssemblyProductAttribute("Ninject.Web.Mvc: Named Scope Extension for Ninject")]
+[assembly: AssemblyProductAttribute("Ninject.Web.Mvc: Ninject support for MVC")]
 [assembly: AssemblyCompanyAttribute("Enkari, Ltd.")]
 [assembly: AssemblyCopyrightAttribute("Copyright © 2008-2010 Enkari, Ltd. and contributors")]
-[assembly: AssemblyVersionAttribute("2.1.0.20")]
+[assembly: AssemblyVersionAttribute("2.1.0.24")]
 [assembly: ComVisibleAttribute(false)]
 [assembly: CLSCompliantAttribute(true)]
 

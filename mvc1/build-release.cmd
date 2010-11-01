@@ -1,5 +1,5 @@
 @echo off
-set nantfile=Ninject.Web.Mvc.build
+set nantfile=Ninject.build
 set nantexe=..\tools\nant\nant.exe
 set buildlog=Ninject.Web.Mvc-Nant-Build.log
 set unittestlog=Ninject.Web.Mvc-Nant-unit-tests.log
