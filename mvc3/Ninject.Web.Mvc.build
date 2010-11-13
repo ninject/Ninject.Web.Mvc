@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project name="Ninject" default="all">
+	<include buildfile="Ninject.Web.Mvc.include" />
+
+	<property name="version" value="2.1.0.0" overwrite="true"/>
+
+	<target name="all" depends="core"/>
+
+	<target name="core" depends="init">
+		<csc noconfig="true" warnaserror="true" target="library" debug="${build.debug}" optimize="${build.optimize}" define="${build.defines}" output="${current.path.build}/${product.assembly}" doc="${current.path.build}/${product.docfile}" keyfile="${path.src}/${product.keyfile}">
+			<arg line="/filealign:512" unless="${nant.settings.currentframework == 'mono-2.0'}"/>
+			<sources basedir="${path.src}">
+				<include name="${build.asminfo}"/>
+				<include name="${product.name}/**/*.cs"/>
+			</sources>
+			<references>
+				<include name="mscorlib.dll"/>
+				<include name="System.dll"/>
+				<include name="System.Core.dll"/>
+				<include name="System.Web.dll"/>
+				<include name="${path.lib}/ReferenceAssemblies/${build.platform}/System.Web.Abstractions.dll"/>
+				<include name="${path.lib}/Mvc3/System.Web.Mvc.dll"/>
+				<include name="${path.lib}/ReferenceAssemblies/${build.platform}/System.Web.Routing.dll"/>
+				<include name="${path.lib}/Ninject/${build.platform}/Ninject.dll"/>
+			</references>
+		</csc>
+	</target>
+</project>

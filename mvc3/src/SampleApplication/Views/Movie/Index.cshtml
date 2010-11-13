@@ -1,0 +1,63 @@
+﻿@model IEnumerable<SampleApplication.Models.Movie.Movies>
+
+@{
+    View.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+
+    <table>
+        <tr>
+            <th></th>
+            <th>
+                Id
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+                Genre
+            </th>
+            <th>
+                ReleaseDate
+            </th>
+            <th>
+                Price
+            </th>
+        </tr>
+
+    @foreach (var item in Model) {
+    
+        <tr>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+            <td>
+                @item.Id
+            </td>
+            <td>
+                @item.Title
+            </td>
+            <td>
+                @item.Genre
+            </td>
+            <td>
+                @String.Format("{0:g}", item.ReleaseDate)
+            </td>
+            <td>
+                @String.Format("{0:F}", item.Price)
+            </td>
+        </tr>
+    
+    }
+
+    </table>
+
+

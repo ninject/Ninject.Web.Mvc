@@ -1,0 +1,7 @@
+﻿@inherits SampleApplication.Controllers.ViewInjectionExample.InjectedWebViewPage
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    View.Title = "View injection example";
+}
+<p>The page says 4 + 8 is @MathService.Add(4, 8).</p>
+
