@@ -1,5 +1,5 @@
-//-------------------------------------------------------------------------------
-// <copyright file="HomeControllerModel.cs" company="bbv Software Services AG">
+﻿//-------------------------------------------------------------------------------
+// <copyright file="IFormsAuthenticationService.cs" company="bbv Software Services AG">
 //   Copyright (c) 2010 bbv Software Services AG
 //   Author: Remo Gloor (remo.gloor@gmail.com)
 //
@@ -17,23 +17,23 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace SampleApplication.Controllers
+namespace SampleApplication.Services.Account
 {
     /// <summary>
-    /// The data model of the home controller
+    /// Authenthication service.
     /// </summary>
-    public class HomeControllerModel : IHomeControllerModel
+    public interface IFormsAuthenticationService
     {
         /// <summary>
-        /// Gets the welcome message.
+        /// Signs the in the given user.
         /// </summary>
-        /// <value>The welcome message.</value>
-        public string WelcomeMessage
-        {
-            get
-            {
-                return "Welcome to MVC";
-            }
-        }
+        /// <param name="userName">The name of the user.</param>
+        /// <param name="createPersistentCookie">if set to <c>true</c> [create persistent cookie].</param>
+        void SignIn(string userName, bool createPersistentCookie);
+
+        /// <summary>
+        /// Signs the out the current user.
+        /// </summary>
+        void SignOut();
     }
 }

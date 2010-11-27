@@ -1,8 +1,8 @@
 @echo off
 set nantfile=Ninject.build
-set nantexe=..\tools\nant\nant.exe
-set buildlog=Ninject.Web.Mvc-Nant-Build.log
-set unittestlog=Ninject.Web.Mvc-Nant-unit-tests.log
+set nantexe=tools\nant\nant.exe
+set buildlog=Ninject-Nant-Build.log
+set unittestlog=Ninject-Nant-unit-tests.log
 
 %nantexe% -buildfile:%nantfile% clean %1 %2 %3 %4 %5 %6 %7 %8
 IF ERRORLEVEL 1 GOTO Failed
@@ -24,6 +24,6 @@ echo "BUILD FAILED"
 echo "============================================================"
 
 :End
-if %NoPause%=="true" goto ENDBATCHFILE 
+if "%NoPause%"=="true" goto ENDBATCHFILE 
 pause
 :ENDBATCHFILE

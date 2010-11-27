@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="HomeControllerModel.cs" company="bbv Software Services AG">
+// <copyright file="AccountModule.cs" company="bbv Software Services AG">
 //   Copyright (c) 2010 bbv Software Services AG
 //   Author: Remo Gloor (remo.gloor@gmail.com)
 //
@@ -17,23 +17,24 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
-namespace SampleApplication.Controllers
+namespace SampleApplication.Services.Account
 {
+    using System.Web.Security;
+    using Ninject.Modules;
+
     /// <summary>
-    /// The data model of the home controller
+    /// The ninject module for the account service.
     /// </summary>
-    public class HomeControllerModel : IHomeControllerModel
+    public class AccountModule : NinjectModule
     {
         /// <summary>
-        /// Gets the welcome message.
+        /// Loads the module into the kernel.
         /// </summary>
-        /// <value>The welcome message.</value>
-        public string WelcomeMessage
+        public override void Load()
         {
-            get
-            {
-                return "Welcome to MVC";
-            }
+            this.Bind<IMembershipService>().To<AccountMembershipService>();
+            this.Bind<IFormsAuthenticationService>().To<FormsAuthenticationService>();
+            this.Bind<MembershipProvider>().ToMethod(ctx => Membership.Provider);
         }
     }
 }
