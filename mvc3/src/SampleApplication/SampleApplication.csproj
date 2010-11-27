@@ -66,6 +66,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\SampleArea\Controllers\AreaTestController.cs" />
+    <Compile Include="Areas\SampleArea\SampleAreaAreaRegistration.cs" />
     <Compile Include="Controllers\FilterInjectionExamples\CacheAttribute.cs" />
     <Compile Include="Controllers\FilterInjectionExamples\ClearCacheOnSuccessAttribute.cs" />
     <Compile Include="Controllers\FilterInjectionExamples\DistributedCacheFilter.cs" />
@@ -158,6 +160,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\SampleArea\Models\" />
+    <Folder Include="Areas\SampleArea\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ninject.Web.Mvc\Ninject.Web.Mvc.csproj">
@@ -170,6 +174,8 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Movies.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Areas\SampleArea\Views\Web.config" />
+    <None Include="Areas\SampleArea\Views\AreaTest\Index.cshtml" />
     <None Include="Views\Math\Index.cshtml" />
     <None Include="Views\Movie\Create.cshtml" />
     <None Include="Views\Movie\Index.cshtml" />

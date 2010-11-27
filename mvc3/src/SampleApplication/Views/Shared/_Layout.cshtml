@@ -20,10 +20,11 @@
             <div id="menucontainer">
 
                 <ul id="menu">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Movies", "Index", "Movie")</li>
-                    <li>@Html.ActionLink("View Injection", "Index", "Math")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = string.Empty }, null)</li>
+                    <li>@Html.ActionLink("Movies", "Index", "Movie", new { area = string.Empty }, null)</li>
+                    <li>@Html.ActionLink("View Injection", "Index", "Math", new { area = string.Empty }, null)</li>
+                    <li>@Html.ActionLink("About", "About", "Home", new { area = string.Empty }, null)</li>
+                    <li>@Html.ActionLink("Other Area", "Index", "AreaTest", new { area = "SampleArea" }, null)</li>
                 </ul>
 
             </div>
