@@ -26,34 +26,67 @@ namespace SampleApplication.Models.Account
     using System.Web.Mvc;
     using System.Web.Security;
 
+    /// <summary>
+    /// Attribute to validate the password length.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class ValidatePasswordLengthAttribute : ValidationAttribute, IClientValidatable
     {
-        private const string _defaultErrorMessage = "'{0}' must be at least {1} characters long.";
-        private readonly int _minCharacters = Membership.Provider.MinRequiredPasswordLength;
+        /// <summary>
+        /// The default error message 
+        /// </summary>
+        private const string DefaultErrorMessage = "'{0}' must be at least {1} characters long.";
 
+        /// <summary>
+        /// The minimum number of characters for the password.
+        /// </summary>
+        private readonly int minimumCharacterCount = Membership.Provider.MinRequiredPasswordLength;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ValidatePasswordLengthAttribute"/> class.
+        /// </summary>
         public ValidatePasswordLengthAttribute()
-            : base(_defaultErrorMessage)
+            : base(DefaultErrorMessage)
         {
         }
 
+        /// <summary>
+        /// Applies formatting to an error message, based on the data field where the error occurred.
+        /// </summary>
+        /// <param name="name">The name to include in the formatted message.</param>
+        /// <returns>
+        /// An instance of the formatted error message.
+        /// </returns>
         public override string FormatErrorMessage(string name)
         {
-            return String.Format(CultureInfo.CurrentCulture, ErrorMessageString,
-                name, _minCharacters);
+            return String.Format(CultureInfo.CurrentCulture, ErrorMessageString, name, this.minimumCharacterCount);
         }
 
+        /// <summary>
+        /// Determines whether the specified value of the object is valid.
+        /// </summary>
+        /// <param name="value">The value of the object to validate.</param>
+        /// <returns>
+        /// true if the specified value is valid; otherwise, false.
+        /// </returns>
         public override bool IsValid(object value)
         {
-            string valueAsString = value as string;
-            return (valueAsString != null && valueAsString.Length >= _minCharacters);
+            var valueAsString = value as string;
+            return valueAsString != null && valueAsString.Length >= this.minimumCharacterCount;
         }
 
+        /// <summary>
+        /// Gets the client validation rules.
+        /// </summary>
+        /// <param name="metadata">The metadata.</param>
+        /// <param name="context">The context.</param>
+        /// <returns>The client validation rules</returns>
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
         {
-            return new[]{
-                            new ModelClientValidationStringLengthRule(FormatErrorMessage(metadata.GetDisplayName()), _minCharacters, int.MaxValue)
-                        };
+            return new[]
+                {
+                    new ModelClientValidationStringLengthRule(this.FormatErrorMessage(metadata.GetDisplayName()), this.minimumCharacterCount, int.MaxValue)
+                };
         }
     }
 }

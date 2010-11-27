@@ -21,8 +21,16 @@ namespace SampleApplication.Models.Account
 {
     using System.Web.Security;
 
+    /// <summary>
+    /// The account validation error messages
+    /// </summary>
     public static class AccountValidationErrorMessages
     {
+        /// <summary>
+        /// Converts error codes to error messages
+        /// </summary>
+        /// <param name="createStatus">The create status.</param>
+        /// <returns>The erroro message</returns>
         public static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {
             // See http://go.microsoft.com/fwlink/?LinkID=177550 for

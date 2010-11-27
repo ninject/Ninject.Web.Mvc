@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------
-// <copyright file="MoviesMetadata.cs" company="bbv Software Services AG">
+// <copyright file="WelcomeMessageServiceModule.cs" company="bbv Software Services AG">
 //   Copyright (c) 2010 bbv Software Services AG
 //   Author: Remo Gloor (remo.gloor@gmail.com)
 //

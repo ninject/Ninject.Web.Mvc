@@ -25,49 +25,87 @@ namespace SampleApplication.Models.Account
     using System.Globalization;
     using System.Web.Mvc;
 
+    /// <summary>
+    /// Attribute to compare two properties.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public sealed class CompareAttribute : ValidationAttribute, IClientValidatable
     {
-        private const string _defaultErrorMessage = "'{0}' and '{1}' do not match.";
-        private readonly object _typeId = new object();
+        /// <summary>
+        /// The default error message
+        /// </summary>
+        private const string DefaultErrorMessage = "'{0}' and '{1}' do not match.";
 
+        /// <summary>
+        /// The id of this validator
+        /// </summary>
+        private readonly object typeId = new object();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CompareAttribute"/> class.
+        /// </summary>
+        /// <param name="confirmProperty">The confirm property name.</param>
         public CompareAttribute(string confirmProperty)
-            : base(_defaultErrorMessage)
+            : base(DefaultErrorMessage)
         {
-            ConfirmProperty = confirmProperty;
+            this.ConfirmProperty = confirmProperty;
         }
 
+        /// <summary>
+        /// Gets the confirm property.
+        /// </summary>
+        /// <value>The confirm property.</value>
         public string ConfirmProperty { get; private set; }
 
+        /// <summary>
+        /// When implemented in a derived class, gets a unique identifier for this <see cref="T:System.Attribute"/>.
+        /// </summary>
+        /// <value></value>
+        /// <returns>An <see cref="T:System.Object"/> that is a unique identifier for the attribute.</returns>
         public override object TypeId
         {
             get
             {
-                return _typeId;
+                return this.typeId;
             }
         }
 
+        /// <summary>
+        /// Applies formatting to an error message, based on the data field where the error occurred.
+        /// </summary>
+        /// <param name="name">The name to include in the formatted message.</param>
+        /// <returns>
+        /// An instance of the formatted error message.
+        /// </returns>
         public override string FormatErrorMessage(string name)
         {
-            return String.Format(CultureInfo.CurrentCulture, ErrorMessageString,
-                name, ConfirmProperty);
+            return String.Format(CultureInfo.CurrentCulture, ErrorMessageString, name, this.ConfirmProperty);
         }
 
-        protected override ValidationResult IsValid(object value, ValidationContext context)
-        {
-            var confirmValue = context.ObjectType.GetProperty(ConfirmProperty).GetValue(context.ObjectInstance, null);
-            if (!Equals(value, confirmValue))
-            {
-                return new ValidationResult(FormatErrorMessage(context.DisplayName));
-            }
-            return null;
-        }
-
+        /// <summary>
+        /// Gets the client validation rules.
+        /// </summary>
+        /// <param name="metadata">The metadata.</param>
+        /// <param name="context">The context.</param>
+        /// <returns>The client validation rules.</returns>
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
         {
-            return new[]{
-                            new ModelClientValidationEqualToRule(FormatErrorMessage(metadata.GetDisplayName()), ConfirmProperty)
+            return new[]
+                        {
+                            new ModelClientValidationEqualToRule(this.FormatErrorMessage(metadata.GetDisplayName()), this.ConfirmProperty)
                         };
+        }
+        
+        /// <summary>
+        /// Determines whether the specified value is valid.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="context">The context.</param>
+        /// <returns>true if the validation is succesful; false otherwise.</returns>
+        protected override ValidationResult IsValid(object value, ValidationContext context)
+        {
+            var confirmValue = context.ObjectType.GetProperty(this.ConfirmProperty).GetValue(context.ObjectInstance, null);
+            return !Equals(value, confirmValue) ? new ValidationResult(this.FormatErrorMessage(context.DisplayName)) : null;
         }
     }
 }

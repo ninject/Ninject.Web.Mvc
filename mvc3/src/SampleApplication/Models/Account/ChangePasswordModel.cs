@@ -21,19 +21,34 @@ namespace SampleApplication.Models.Account
 {
     using System.ComponentModel.DataAnnotations;
 
+    /// <summary>
+    /// The view modell for changing passwords
+    /// </summary>
     public class ChangePasswordModel
     {
+        /// <summary>
+        /// Gets or sets the old password.
+        /// </summary>
+        /// <value>The old password.</value>
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Current password")]
         public string OldPassword { get; set; }
 
+        /// <summary>
+        /// Gets or sets the new password.
+        /// </summary>
+        /// <value>The new password.</value>
         [Required]
         [ValidatePasswordLength]
         [DataType(DataType.Password)]
         [Display(Name = "New password")]
         public string NewPassword { get; set; }
 
+        /// <summary>
+        /// Gets or sets the password confirmation.
+        /// </summary>
+        /// <value>The password confirmation.</value>
         [DataType(DataType.Password)]
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]

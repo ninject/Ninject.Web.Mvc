@@ -21,23 +21,42 @@ namespace SampleApplication.Models.Account
 {
     using System.ComponentModel.DataAnnotations;
 
+    /// <summary>
+    /// The view model to register a new user
+    /// </summary>
     public class RegisterModel
     {
+        /// <summary>
+        /// Gets or sets the name of the user.
+        /// </summary>
+        /// <value>The name of the user.</value>
         [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the email address.
+        /// </summary>
+        /// <value>The email address.</value>
         [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email address")]
         public string Email { get; set; }
 
+        /// <summary>
+        /// Gets or sets the password.
+        /// </summary>
+        /// <value>The password.</value>
         [Required]
         [ValidatePasswordLength]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        /// <summary>
+        /// Gets or sets the password confirmation.
+        /// </summary>
+        /// <value>The password confirmation.</value>
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
