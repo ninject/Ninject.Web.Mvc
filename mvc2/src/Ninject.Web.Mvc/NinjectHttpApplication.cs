@@ -20,10 +20,24 @@ namespace Ninject.Web.Mvc
     public abstract class NinjectHttpApplication : HttpApplication, IHaveKernel
     {
         /// <summary>
+        /// The one per request module to release request scope at the end of the request
+        /// </summary>
+        private readonly OnePerRequestModule onePerRequestModule;
+
+        /// <summary>
         /// The ninject kernel of the application
         /// </summary>
         private static IKernel kernel;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NinjectHttpApplication"/> class.
+        /// </summary>
+        protected NinjectHttpApplication()
+        {
+            this.onePerRequestModule = new OnePerRequestModule();
+            this.onePerRequestModule.Init(this);
+        }
+        
         /// <summary>
         /// Gets the kernel.
         /// </summary>
@@ -31,7 +45,7 @@ namespace Ninject.Web.Mvc
         {
             get { return kernel; }
         }
-
+        
         /// <summary>
         /// Starts the application.
         /// </summary>
@@ -53,6 +67,11 @@ namespace Ninject.Web.Mvc
                 ControllerBuilder.Current.SetControllerFactory(this.CreateControllerFactory());
 
                 kernel.Inject(this);
+
+                if (kernel.Settings.Get("ReleaseScopeAtRequestEnd", true))
+                {
+                    OnePerRequestModule.StartManaging(kernel);
+                }
 
                 this.OnApplicationStarted();
             }
