@@ -19,22 +19,36 @@ using Ninject.Infrastructure;
 
 namespace Ninject.Web.Mvc
 {
-	/// <summary>
+    /// <summary>
 	/// Defines an <see cref="HttpApplication"/> that is controlled by a Ninject <see cref="IKernel"/>.
 	/// </summary>
 	public abstract class NinjectHttpApplication : HttpApplication, IHaveKernel
 	{
-		private static IKernel _kernel;
+        /// <summary>
+        /// The one per request module to release request scope at the end of the request
+        /// </summary>
+        private readonly OnePerRequestModule onePerRequestModule;
+        
+        private static IKernel _kernel;
 
-		/// <summary>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NinjectHttpApplication"/> class.
+        /// </summary>
+        protected NinjectHttpApplication()
+        {
+            this.onePerRequestModule = new OnePerRequestModule();
+            this.onePerRequestModule.Init(this);
+        }
+        
+        /// <summary>
 		/// Gets the kernel.
 		/// </summary>
 		public IKernel Kernel
 		{
 			get { return _kernel; }
 		}
-
-		/// <summary>
+        
+        /// <summary>
 		/// Starts the application.
 		/// </summary>
 		public void Application_Start()
@@ -46,12 +60,17 @@ namespace Ninject.Web.Mvc
 				_kernel.Bind<RouteCollection>().ToConstant(RouteTable.Routes);
                 _kernel.Bind<HttpContext>().ToMethod(ctx => HttpContext.Current).InTransientScope();
                 _kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InTransientScope();
-				
-				ControllerBuilder.Current.SetControllerFactory(CreateControllerFactory());
+
+                ControllerBuilder.Current.SetControllerFactory(CreateControllerFactory());
 
 				_kernel.Inject(this);
 
-				OnApplicationStarted();
+                if (_kernel.Settings.Get("ReleaseScopeAtRequestEnd", true))
+                {
+                    OnePerRequestModule.StartManaging(_kernel);
+                }
+                
+                OnApplicationStarted();
 			}
 		}
 
@@ -150,5 +169,5 @@ namespace Ninject.Web.Mvc
 		/// Called when the application is stopped.
 		/// </summary>
 		protected virtual void OnApplicationStopped() { }
-	}
+    }
 }
