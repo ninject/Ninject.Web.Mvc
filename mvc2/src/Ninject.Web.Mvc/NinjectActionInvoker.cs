@@ -15,6 +15,9 @@ namespace Ninject.Web.Mvc
     /// </summary>
     public class NinjectActionInvoker : ControllerActionInvoker
     {
+        /// <summary>
+        /// The injector for filter injection.
+        /// </summary>
         private readonly IFilterInjector filterInjector;
 
         /// <summary>

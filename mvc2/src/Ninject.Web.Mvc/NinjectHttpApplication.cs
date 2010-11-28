@@ -1,104 +1,107 @@
-#region License
 // 
-// Authors: Nate Kohari <nate@enkari.com>, Josh Close <narshe@gmail.com>
-// Copyright (c) 2007-2009, Enkari, Ltd.
+// Authors: Nate Kohari <nate@enkari.com>, Remo Gloor <remo.gloor@gmail.com>, Josh Close <narshe@gmail.com>
+// Copyright (c) 2007-2010, Enkari, Ltd.
 // 
 // Dual-licensed under the Apache License, Version 2.0, and the Microsoft Public License (Ms-PL).
 // See the file LICENSE.txt for details.
 // 
-#endregion
-#region Using Directives
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
-using Ninject.Infrastructure;
-#endregion
 
 namespace Ninject.Web.Mvc
 {
+    using System.Web;
+    using System.Web.Mvc;
+    using System.Web.Routing;
+    using Ninject.Infrastructure;
     using Ninject.Planning.Bindings.Resolvers;
 
     /// <summary>
-	/// Defines an <see cref="HttpApplication"/> that is controlled by a Ninject <see cref="IKernel"/>.
-	/// </summary>
-	public abstract class NinjectHttpApplication : HttpApplication, IHaveKernel
-	{
-		private static IKernel _kernel;
+    /// Defines an <see cref="HttpApplication"/> that is controlled by a Ninject <see cref="IKernel"/>.
+    /// </summary>
+    public abstract class NinjectHttpApplication : HttpApplication, IHaveKernel
+    {
+        /// <summary>
+        /// The ninject kernel of the application
+        /// </summary>
+        private static IKernel kernel;
 
-		/// <summary>
-		/// Gets the kernel.
-		/// </summary>
-		public IKernel Kernel
-		{
-			get { return _kernel; }
-		}
+        /// <summary>
+        /// Gets the kernel.
+        /// </summary>
+        public IKernel Kernel
+        {
+            get { return kernel; }
+        }
 
-		/// <summary>
-		/// Starts the application.
-		/// </summary>
-		public void Application_Start()
-		{
-			lock (this)
-			{
-				_kernel = CreateKernel();
+        /// <summary>
+        /// Starts the application.
+        /// </summary>
+        public void Application_Start()
+        {
+            lock (this)
+            {
+                kernel = this.CreateKernel();
 
-                _kernel.Components.RemoveAll<IMissingBindingResolver>();
-                _kernel.Components.Add<IMissingBindingResolver, ControllerMissingBindingResolver>();
-                _kernel.Components.Add<IMissingBindingResolver, SelfBindingResolver>();
+                kernel.Components.RemoveAll<IMissingBindingResolver>();
+                kernel.Components.Add<IMissingBindingResolver, ControllerMissingBindingResolver>();
+                kernel.Components.Add<IMissingBindingResolver, SelfBindingResolver>();
 
-                _kernel.Bind<RouteCollection>().ToConstant(RouteTable.Routes);
-				_kernel.Bind<HttpContext>().ToMethod(ctx => HttpContext.Current).InTransientScope();
-                _kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InTransientScope();
-			    _kernel.Bind<IFilterInjector>().To<FilterInjector>().InSingletonScope();
-				
-				ControllerBuilder.Current.SetControllerFactory(CreateControllerFactory());
+                kernel.Bind<RouteCollection>().ToConstant(RouteTable.Routes);
+                kernel.Bind<HttpContext>().ToMethod(ctx => HttpContext.Current).InTransientScope();
+                kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InTransientScope();
+                kernel.Bind<IFilterInjector>().To<FilterInjector>().InSingletonScope();
+                
+                ControllerBuilder.Current.SetControllerFactory(this.CreateControllerFactory());
 
-				_kernel.Inject(this);
+                kernel.Inject(this);
 
-				OnApplicationStarted();
-			}
-		}
+                this.OnApplicationStarted();
+            }
+        }
 
-		/// <summary>
-		/// Releases the kernel on application end.
-		/// </summary>
+        /// <summary>
+        /// Releases the kernel on application end.
+        /// </summary>
         public void Application_End()
-		{
-			lock (this)
-			{
-				if (_kernel != null)
-				{
-					_kernel.Dispose();
-					_kernel = null;
-				}
+        {
+            lock (this)
+            {
+                if (kernel != null)
+                {
+                    kernel.Dispose();
+                    kernel = null;
+                }
 
-				OnApplicationStopped();
-			}
-		}
+                this.OnApplicationStopped();
+            }
+        }
 
-		/// <summary>
-		/// Creates the kernel that will manage your application.
-		/// </summary>
-		/// <returns>The created kernel.</returns>
-		protected abstract IKernel CreateKernel();
+        /// <summary>
+        /// Creates the kernel that will manage your application.
+        /// </summary>
+        /// <returns>The created kernel.</returns>
+        protected abstract IKernel CreateKernel();
 
-		/// <summary>
-		/// Creates the controller factory that is used to create the controllers.
-		/// </summary>
-		/// <returns>The created controller factory.</returns>
-		protected virtual NinjectControllerFactory CreateControllerFactory()
-		{
-			return new NinjectControllerFactory(Kernel);
-		}
+        /// <summary>
+        /// Creates the controller factory that is used to create the controllers.
+        /// </summary>
+        /// <returns>The created controller factory.</returns>
+        protected virtual NinjectControllerFactory CreateControllerFactory()
+        {
+            return new NinjectControllerFactory(this.Kernel);
+        }
 
-		/// <summary>
-		/// Called when the application is started.
-		/// </summary>
-		protected virtual void OnApplicationStarted() { }
+        /// <summary>
+        /// Called when the application is started.
+        /// </summary>
+        protected virtual void OnApplicationStarted()
+        {
+        }
 
-		/// <summary>
-		/// Called when the application is stopped.
-		/// </summary>
-		protected virtual void OnApplicationStopped() { }
-	}
+        /// <summary>
+        /// Called when the application is stopped.
+        /// </summary>
+        protected virtual void OnApplicationStopped()
+        {
+        }
+    }
 }
