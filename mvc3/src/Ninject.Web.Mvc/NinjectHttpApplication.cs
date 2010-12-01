@@ -68,7 +68,7 @@ namespace Ninject.Web.Mvc
             {
                 kernel = this.CreateKernel();
 
-                kernel.Bind<IResolutionRoot>().ToConstant(kernel).InSingletonScope();
+                kernel.Bind<IResolutionRoot>().ToConstant(kernel);
                 kernel.Bind<IDependencyResolver>().To<NinjectDependencyResolver>();
                 kernel.Bind<IFilterProvider>().To<NinjectFilterAttributeFilterProvider>();
                 kernel.Bind<IFilterProvider>().To<NinjectFilterProvider>();
