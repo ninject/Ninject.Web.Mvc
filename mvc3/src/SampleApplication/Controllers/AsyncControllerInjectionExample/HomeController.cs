@@ -19,6 +19,7 @@
 
 namespace SampleApplication.Controllers.AsyncControllerInjectionExample
 {
+    using System.Collections.Generic;
     using System.Web.Mvc;
     using SampleApplication.Services.WelcomeMessageService;
 

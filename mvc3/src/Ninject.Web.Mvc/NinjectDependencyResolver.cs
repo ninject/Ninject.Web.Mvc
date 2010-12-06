@@ -21,8 +21,9 @@ namespace Ninject.Web.Mvc
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Mvc;
-
+    using Ninject.Parameters;
     using Ninject.Syntax;
 
     /// <summary>
@@ -51,7 +52,8 @@ namespace Ninject.Web.Mvc
         /// <returns>The service instance or null if none is configured.</returns>
         public object GetService(Type serviceType)
         {
-            return this.resolutionRoot.TryGet(serviceType);
+            var request = this.resolutionRoot.CreateRequest(serviceType, null, new Parameter[0], true, true);
+            return this.resolutionRoot.Resolve(request).SingleOrDefault();
         }
 
         /// <summary>
