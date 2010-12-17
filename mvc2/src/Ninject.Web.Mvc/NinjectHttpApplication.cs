@@ -35,7 +35,6 @@ namespace Ninject.Web.Mvc
         protected NinjectHttpApplication()
         {
             this.onePerRequestModule = new OnePerRequestModule();
-            this.onePerRequestModule.Init(this);
         }
         
         /// <summary>
@@ -75,6 +74,14 @@ namespace Ninject.Web.Mvc
 
                 this.OnApplicationStarted();
             }
+        }
+
+        /// <summary>
+        /// Initializes the OnePerRequestModule.
+        /// </summary>
+        public override void Init()
+        {
+            this.onePerRequestModule.Init(this);
         }
 
         /// <summary>
