@@ -107,7 +107,7 @@ namespace SampleApplication.Controllers.ControllerInjectionExample
         /// <returns>The register view.</returns>
         public ActionResult Register()
         {
-            this.ViewModel.PasswordLength = this.MembershipService.MinPasswordLength;
+            this.ViewBag.PasswordLength = this.MembershipService.MinPasswordLength;
             return View();
         }
 
@@ -135,7 +135,7 @@ namespace SampleApplication.Controllers.ControllerInjectionExample
             }
 
             // If we got this far, something failed, redisplay form
-            ViewModel.PasswordLength = this.MembershipService.MinPasswordLength;
+            ViewBag.PasswordLength = this.MembershipService.MinPasswordLength;
             return View(model);
         }
 
@@ -146,7 +146,7 @@ namespace SampleApplication.Controllers.ControllerInjectionExample
         [Authorize]
         public ActionResult ChangePassword()
         {
-            this.ViewModel.PasswordLength = this.MembershipService.MinPasswordLength;
+            this.ViewBag.PasswordLength = this.MembershipService.MinPasswordLength;
             return View();
         }
 
@@ -170,7 +170,7 @@ namespace SampleApplication.Controllers.ControllerInjectionExample
             }
 
             // If we got this far, something failed, redisplay form
-            this.ViewModel.PasswordLength = this.MembershipService.MinPasswordLength;
+            this.ViewBag.PasswordLength = this.MembershipService.MinPasswordLength;
             return View(model);
         }
 

@@ -47,7 +47,7 @@ namespace SampleApplication.Areas.SampleArea.Controllers
         /// <returns>The view action result.</returns>
         public ActionResult Index()
         {
-            ViewModel.Message = this.welcomeMessageService.WelcomeMessage;
+            ViewBag.Message = this.welcomeMessageService.WelcomeMessage;
             return View();
         }
     }

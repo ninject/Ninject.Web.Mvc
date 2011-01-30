@@ -55,7 +55,7 @@ namespace SampleApplication.Controllers.AsyncControllerInjectionExample
         /// <returns>The async result of the action</returns>
         public ActionResult IndexCompleted()
         {
-            ViewModel.Message = this.welcomeMessageService.WelcomeMessage;
+            ViewBag.Message = this.welcomeMessageService.WelcomeMessage;
             return View();
         }
 
