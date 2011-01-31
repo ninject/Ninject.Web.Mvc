@@ -26,7 +26,7 @@
 	<property name="version.revision" value="${version::get-revision(version::parse(version))}" dynamic="true"/>
 	<property name="build.version" value="${version.major}.${version.minor}.${version.build}.${version.revision}" dynamic="true"/>
 	<property name="build.config" value="debug" overwrite="false"/>
-	<property name="build.platform" value="net-3.5" overwrite="false"/>
+	<property name="build.platform" value="net-4.0" overwrite="false"/>
 	<property name="build.asminfo" value="SharedAssemblyInfo.cs"/>
 
 	<property name="package" value="false" readonly="false" overwrite="false"/>
