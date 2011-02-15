@@ -35,3 +35,4 @@
 	<target name="compile-tests"/>
 
 	<target name="compile-silverlight-tests"/>
+</project>

@@ -3,12 +3,12 @@
 
 	<property name="path.base" value="${project::get-base-directory()}"/>
 	<property name="path.build" value="${path.base}/build"/>
-	<property name="path.lib" value="${path.base}/lib"/>
+	<property name="path.lib" value="${path.base}/../lib"/>
 	<property name="path.dist" value="${path.base}/dist"/>
 	<property name="path.docs" value="${path.base}/docs"/>
 	<property name="path.src" value="${path.base}/src"/>
 	<property name="path.build.assemblyinfo" value="${path.src}/${build.asminfo}" dynamic="true"/>
-	<property name="path.tools" value="${path.base}/tools"/>
+	<property name="path.tools" value="${path.base}/../tools"/>
 	<property name="path.tools.xunit" value="${path.tools}/xunit.net"/>
 	<property name="path.tools.xunit.console" value="${path.tools.xunit}/xunit.console.exe" dynamic="true"/>
 	<property name="path.tools.moq" value="${path.tools}/moq"/>
