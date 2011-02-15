@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <project name="Ninject" default="build">
-	<property name="version" value="2.1.0.0" overwrite="true"/>
+	<property name="version" value="2.2.0.0" overwrite="true"/>
 	<property name="product.name" value="Ninject.Web.Mvc" overwrite="false"/>
 	<property name="product.company" value="Enkari, Ltd." overwrite="false"/>
-	<property name="product.duration" value="2008-2010" overwrite="false"/>
+	<property name="product.duration" value="2008-2011" overwrite="false"/>
 	<property name="product.description" value="Ninject support for MVC" overwrite="false"/>
 	<property name="product.platforms" value="net-3.5,net-4.0,mono-2.0"  overwrite="false"/>
 	<property name="product.buildserverPlatforms" value="net-3.5,net-4.0,mono-2.0"  overwrite="false"/>

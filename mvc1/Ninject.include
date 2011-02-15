@@ -3,12 +3,12 @@
 
 	<property name="path.base" value="${project::get-base-directory()}"/>
 	<property name="path.build" value="${path.base}/build"/>
-	<property name="path.lib" value="${path.base}/../lib"/>
+	<property name="path.lib" value="${path.base}/lib"/>
 	<property name="path.dist" value="${path.base}/dist"/>
 	<property name="path.docs" value="${path.base}/docs"/>
 	<property name="path.src" value="${path.base}/src"/>
 	<property name="path.build.assemblyinfo" value="${path.src}/${build.asminfo}" dynamic="true"/>
-	<property name="path.tools" value="${path.base}/../tools"/>
+	<property name="path.tools" value="${path.base}/tools"/>
 	<property name="path.tools.xunit" value="${path.tools}/xunit.net"/>
 	<property name="path.tools.xunit.console" value="${path.tools.xunit}/xunit.console.exe" dynamic="true"/>
 	<property name="path.tools.moq" value="${path.tools}/moq"/>
@@ -23,7 +23,8 @@
 	<property name="product.assembly.test" value="${product.name}.Test.dll" overwrite="false"/>
 	<property name="product.assembly.silverlighttest" value="${product.name}.SilverlightTests.xap" overwrite="false"/>
 	<property name="product.assembly.silverlighttestdll" value="${product.name}.SilverlightTests.dll" overwrite="false"/>
-
+	<property name="product.additionalVersionTag" value="" overwrite="false"/>
+	
 	<property name="version.major" value="${version::get-major(version::parse(version))}" dynamic="true"/>
 	<property name="version.minor" value="${version::get-minor(version::parse(version))}" dynamic="true"/>
 	<property name="version.build" value="${version::get-build(version::parse(version))}" dynamic="true"/>
@@ -256,6 +257,13 @@
 
 	<target name="UnzipDependencies">
 		<foreach item="String" in="${dependencies}" delim="," property="dependency">
+			<delete>
+				<fileset>
+					<include name="${path.lib}/${dependency}/**/*" />
+					<exclude name="${path.lib}/${dependency}/*.txt" />
+					<exclude name="${path.lib}/${dependency}/*.zip" />
+				</fileset>
+			</delete>
 			<foreach item="File" property="filepath">
 				<in>
 					<items>
@@ -293,7 +301,7 @@
 	
 	<target name="package-bin" depends="all">
 		<mkdir dir="${path.dist}" if="${not(directory::exists(path.dist))}"/>
-		<zip zipfile="${path.dist}\${product.name}-${build.version}-${build.config}-${build.platform}.zip" ziplevel="9">
+		<zip zipfile="${path.dist}\${product.name}-${build.version}-${product.additionalVersionTag}${build.config}-${build.platform}.zip" ziplevel="9">
 			<fileset basedir="${current.path.build}">
 				<include name="**/*.*"/>
 			</fileset>
@@ -302,7 +310,7 @@
 
 	<target name="package-source" depends="create-assembly-info">
 		<mkdir dir="${path.dist}" if="${not(directory::exists(path.dist))}"/>
-		<zip zipfile="${path.dist}\${product.name}-${build.version}-source.zip" ziplevel="9">
+		<zip zipfile="${path.dist}\${product.name}-${build.version}-${product.additionalVersionTag}source.zip" ziplevel="9">
 			<fileset basedir="${path.base}">
 				<include name="lib/*.*"/>
 				<include name="**/*.cs"/>

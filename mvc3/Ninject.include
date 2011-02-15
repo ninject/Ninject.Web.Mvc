@@ -1,25 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <project name="NinjectIncludes">
+
 	<property name="path.base" value="${project::get-base-directory()}"/>
 	<property name="path.build" value="${path.base}/build"/>
-	<property name="path.lib" value="${path.base}/../lib"/>
-	<property name="path.libMvc2" value="${path.base}/lib"/>
+	<property name="path.lib" value="${path.base}/lib"/>
 	<property name="path.dist" value="${path.base}/dist"/>
 	<property name="path.docs" value="${path.base}/docs"/>
 	<property name="path.src" value="${path.base}/src"/>
 	<property name="path.build.assemblyinfo" value="${path.src}/${build.asminfo}" dynamic="true"/>
-	<property name="path.tools" value="${path.base}/../tools"/>
+	<property name="path.tools" value="${path.base}/tools"/>
+	<property name="path.tools.xunit" value="${path.tools}/xunit.net"/>
+	<property name="path.tools.xunit.console" value="${path.tools.xunit}/xunit.console.exe" dynamic="true"/>
+	<property name="path.tools.moq" value="${path.tools}/moq"/>
+	<property name="path.tools.ncover" value="${path.tools}/ncover"/>
 	<property name="path.tools.git" value="${path.tools}/git"/>
+	<property name="path.tools.statlight" value="${path.tools}/statlight/statlight.exe"/>
+	<property name="path.tools.unitdriven" value="${path.tools}/unitdriven"/>
 
-	<property name="product.name" value="Ninject.Web.Mvc" overwrite="false"/>
-	<property name="product.company" value="Enkari, Ltd." overwrite="false"/>
-	<property name="product.duration" value="2008-2010" overwrite="false"/>
-	<property name="product.description" value="Named Scope Extension for Ninject" overwrite="false"/>
 	<property name="product.keyfile" value="Ninject.snk" overwrite="false"/>
 	<property name="product.docfile" value="${product.name}.xml" overwrite="false"/>
 	<property name="product.assembly" value="${product.name}.dll" overwrite="false"/>
-
-	<property name="version" value="1.0.0.0" overwrite="false"/>
+	<property name="product.assembly.test" value="${product.name}.Test.dll" overwrite="false"/>
+	<property name="product.assembly.silverlighttest" value="${product.name}.SilverlightTests.xap" overwrite="false"/>
+	<property name="product.assembly.silverlighttestdll" value="${product.name}.SilverlightTests.dll" overwrite="false"/>
+	<property name="product.additionalVersionTag" value="" overwrite="false"/>
+	
 	<property name="version.major" value="${version::get-major(version::parse(version))}" dynamic="true"/>
 	<property name="version.minor" value="${version::get-minor(version::parse(version))}" dynamic="true"/>
 	<property name="version.build" value="${version::get-build(version::parse(version))}" dynamic="true"/>
@@ -30,6 +35,8 @@
 	<property name="build.asminfo" value="SharedAssemblyInfo.cs"/>
 
 	<property name="package" value="false" readonly="false" overwrite="false"/>
+	<property name="skip.tests" value="false" readonly="false" overwrite="false"/>
+	<property name="skip.silverlightTests" value="false" readonly="false" overwrite="false"/>
 
 	<property name="Is64BitOperatingSystem" value="false" />
 	<property name="Is64BitProcess" value="false" />
@@ -93,13 +100,16 @@
 		<echo message="Setting the [Is64BitProcess] property to ${Is64BitProcess}." />
 	</target>
 
-	<target name="rebuild" depends="clean, all"/>
+	<target name="rebuild" depends="clean, build"/>
 
 	<target name="clean">
 		<delete dir="${path.build}" if="${directory::exists(path.build)}"/>
 		<delete dir="${path.dist}" if="${directory::exists(path.dist)}"/>
 	</target>
 
+	<target name="build" depends="InitializeBuildSystem all"/>
+	<target name="InitializeBuildSystem" depends="DetectOperatingSystemArchitecture create-assembly-info"/>
+	
 	<target name="create-assembly-info" depends="get-git-revision">
 		<echo message="##teamcity[buildNumber '${build.version}']" />
 		<asminfo output="${path.build.assemblyinfo}" language="CSharp">
@@ -119,8 +129,7 @@
 		</asminfo>
 	</target>
 
-	<target name="init" depends="create-assembly-info">
-		<call target="DetectOperatingSystemArchitecture"/>
+	<target name="init">
 		<mkdir dir="${path.build}" if="${not(directory::exists(path.build))}"/>
 		<mkdir dir="${path.dist}" if="${not(directory::exists(path.dist))}"/>
 
@@ -128,8 +137,11 @@
 		<call target="config-platform-${build.platform}"/>
 
 		<property name="current.path.ninject.lib" value="${path.lib}/Ninject/${build.platform}"/>
+		<property name="current.path.context.lib" value="${path.lib}/Ninject.Extensions.ContextPreservation/${build.platform}"/>
+		<property name="current.path.namedscope.lib" value="${path.lib}/Ninject.Extensions.NamedScope/${build.platform}"/>
 		<property name="current.path.build" value="${path.build}/${build.platform}/${build.config}"/>
 		<property name="current.path.build.lib" value="${path.build}/${build.platform}/${build.config}/lib"/>
+		<property name="current.path.test" value="${path.build}/${build.platform}/tests" />
 
 		<mkdir dir="${current.path.build}" if="${not(directory::exists(current.path.build))}"/>
 		<mkdir dir="${current.path.build.lib}" if="${not(directory::exists(current.path.build.lib))}"/>
@@ -142,6 +154,20 @@
 		
 		<copy todir="${current.path.build.lib}">
 			<fileset basedir="${current.path.ninject.lib}">
+				<include name="**/*.dll"/>
+				<include name="**/*.xml"/>
+			</fileset>
+		</copy>
+		
+		<copy todir="${current.path.build.lib}">
+			<fileset basedir="${current.path.context.lib}">
+				<include name="**/*.dll"/>
+				<include name="**/*.xml"/>
+			</fileset>
+		</copy>
+		
+		<copy todir="${current.path.build.lib}">
+			<fileset basedir="${current.path.namedscope.lib}">
 				<include name="**/*.dll"/>
 				<include name="**/*.xml"/>
 			</fileset>
@@ -165,9 +191,46 @@
 		<property name="build.defines" value="${global.build.defines},NET,NET_35"/>
 	</target>
 
+	<target name="config-platform-net-3.5-no-web">
+		<property name="nant.settings.currentframework" value="net-3.5"/>
+		<property name="build.defines" value="${global.build.defines},NET,NET_35,NO_WEB"/>
+	</target>
+
 	<target name="config-platform-net-4.0">
 		<property name="nant.settings.currentframework" value="net-4.0"/>
 		<property name="build.defines" value="${global.build.defines},NET,NET_40"/>
+		<property name="path.tools.xunit.console" value="${path.tools.xunit}/xunit.console.clr4.exe"/>
+	</target>
+
+	<target name="config-platform-net-4.0-no-web">
+		<property name="nant.settings.currentframework" value="net-4.0"/>
+		<property name="build.defines" value="${global.build.defines},NET,NET_40,NO_WEB"/>
+		<property name="path.tools.xunit.console" value="${path.tools.xunit}/xunit.console.clr4.exe"/>
+	</target>
+	
+	<target name="config-platform-silverlight-2.0">
+		<property name="nant.settings.currentframework" value="silverlight-2.0"/>
+		<property name="build.defines" value="${global.build.defines},SILVERLIGHT,SILVERLIGHT_20,NO_ASSEMBLY_SCANNING,NO_WEB,NO_PARTIAL_TRUST,NO_SKIP_VISIBILITY,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS"/>
+	</target>
+
+	<target name="config-platform-silverlight-3.0">
+		<property name="nant.settings.currentframework" value="silverlight-3.0"/>
+		<property name="build.defines" value="${global.build.defines},SILVERLIGHT,SILVERLIGHT_30,NO_ASSEMBLY_SCANNING,NO_WEB,NO_PARTIAL_TRUST,NO_SKIP_VISIBILITY,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS"/>
+	</target>
+
+	<target name="config-platform-silverlight-4.0">
+		<property name="nant.settings.currentframework" value="silverlight-4.0"/>
+		<property name="build.defines" value="${global.build.defines},SILVERLIGHT,SILVERLIGHT_40,NO_ASSEMBLY_SCANNING,NO_WEB,NO_PARTIAL_TRUST,NO_SKIP_VISIBILITY,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS"/>
+	</target>
+	
+	<target name="config-platform-silverlight-4.0-wp7">
+		<property name="nant.settings.currentframework" value="silverlight-4.0-wp7"/>
+		<property name="build.defines" value="${global.build.defines},SILVERLIGHT,SILVERLIGHT_40,WINDOWS_PHONE,NO_LCG,NO_ASSEMBLY_SCANNING,NO_WEB,NO_PARTIAL_TRUST,NO_SKIP_VISIBILITY,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS"/>
+	</target>
+
+	<target name="config-platform-netcf-3.5">
+		<property name="nant.settings.currentframework" value="netcf-3.5"/>
+		<property name="build.defines" value="${global.build.defines},NETCF,NETCF_35,NO_LCG,NO_ASSEMBLY_SCANNING,NO_WEB,NO_PARTIAL_TRUST,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS"/>
 	</target>
 
 	<target name="config-platform-mono-2.0">
@@ -175,35 +238,61 @@
 		<property name="build.defines" value="${global.build.defines},NET,NET_35,MONO"/>
 	</target>
 
+	<target name="config-platform-mono-2.0-no-web">
+		<property name="nant.settings.currentframework" value="mono-2.0"/>
+		<property name="build.defines" value="${global.build.defines},NET,NET_35,NO_WEB,MONO"/>
+	</target>
+	
+	<target name="test" depends="compile-tests" unless="${skip.tests}" if="${not(string::contains(build.platform, 'silverlight') or build.platform == 'netcf-3.5')}">
+		<exec program="${path.tools.xunit.console}" workingdir="${current.path.test}" commandline="${product.assembly.test} /html ${current.path.test}/results.html" failonerror="true"/>
+		<if test="${not Is64BitOperatingSystem}">
+			<exec verbose="true" program="${path.tools.ncover}/ncover.console.exe" workingdir="${current.path.test}"
+				commandline="&quot;${path.tools.xunit.console}&quot; &quot;${product.assembly.test}&quot; //reg //w &quot;.&quot; //x &quot;coverage.xml&quot;" />
+		</if>
+	</target>
+
+	<target name="silverlight-test" depends="compile-silverlight-tests" unless="${skip.tests or skip.silverlightTests}" if="${string::contains(build.platform, 'silverlight')}">
+		<exec program="${path.tools.statlight}" workingdir="${current.path.test}" commandline='-x"${product.assembly.silverlighttest}" -o=UnitDriven --teamcity' failonerror="true"/>
+	</target>
+
 	<target name="UnzipDependencies">
-		<foreach item="File" property="filepath">
-			<in>
-				<items>
-					<include name="${path.lib}/Ninject/*release*.zip"/>
-				</items>
-			</in>
-			<do>
-				<property name="filename" value="${path::get-file-name-without-extension(filepath)}"/>
-				<property name="index" value="${string::index-of(filename, 'release')}"/>
-				<property name="destinationDir" value="${string::substring(filename, string::index-of(filename, 'release') + 8, string::get-length(filename) - string::index-of(filename, 'release') - 8)}"/>
-				
-				<unzip zipfile="${filepath}" todir="${path.lib}/Ninject/${destinationDir}"/>
-			</do>
-		</foreach>	
+		<foreach item="String" in="${dependencies}" delim="," property="dependency">
+			<delete>
+				<fileset>
+					<include name="${path.lib}/${dependency}/**/*" />
+					<exclude name="${path.lib}/${dependency}/*.txt" />
+					<exclude name="${path.lib}/${dependency}/*.zip" />
+				</fileset>
+			</delete>
+			<foreach item="File" property="filepath">
+				<in>
+					<items>
+						<include name="${path.lib}/${dependency}/*release*.zip"/>
+					</items>
+				</in>
+				<do>
+					<property name="filename" value="${path::get-file-name-without-extension(filepath)}"/>
+					<property name="index" value="${string::index-of(filename, 'release')}"/>
+					<property name="destinationDir" value="${string::substring(filename, string::index-of(filename, 'release') + 8, string::get-length(filename) - string::index-of(filename, 'release') - 8)}"/>
+					
+					<unzip zipfile="${filepath}" todir="${path.lib}/${dependency}/${destinationDir}"/>
+				</do>
+			</foreach>
+		</foreach>
 	</target>
 	
 	<target name="package-all" depends="all package-bin package-source" />
 	
-	<target name="buildServerPlatforms">
-		<foreach item="String" in="net-3.5,net-4.0,mono-2.0" delim="," property="platform">
+	<target name="buildServerPlatforms" depends="InitializeBuildSystem">
+		<foreach item="String" in="${product.buildserverPlatforms}" delim="," property="platform">
 			<property name="build.platform" value="${platform}"/>
 			<call target="package-bin"/>
 		</foreach>
 		<call target="package-source"/>
 	</target>
 
-	<target name="allPlatforms">
-		<foreach item="String" in="net-3.5,net-4.0,mono-2.0" delim="," property="platform">
+	<target name="allPlatforms" depends="InitializeBuildSystem">
+		<foreach item="String" in="${product.platforms}" delim="," property="platform">
 			<property name="build.platform" value="${platform}"/>
 			<call target="package-bin"/>
 		</foreach>
@@ -212,7 +301,7 @@
 	
 	<target name="package-bin" depends="all">
 		<mkdir dir="${path.dist}" if="${not(directory::exists(path.dist))}"/>
-		<zip zipfile="${path.dist}\${product.name}2-${build.version}-${build.config}-${build.platform}.zip" ziplevel="9">
+		<zip zipfile="${path.dist}\${product.name}-${build.version}-${product.additionalVersionTag}${build.config}-${build.platform}.zip" ziplevel="9">
 			<fileset basedir="${current.path.build}">
 				<include name="**/*.*"/>
 			</fileset>
@@ -221,7 +310,7 @@
 
 	<target name="package-source" depends="create-assembly-info">
 		<mkdir dir="${path.dist}" if="${not(directory::exists(path.dist))}"/>
-		<zip zipfile="${path.dist}\${product.name}2-${build.version}-source.zip" ziplevel="9">
+		<zip zipfile="${path.dist}\${product.name}-${build.version}-${product.additionalVersionTag}source.zip" ziplevel="9">
 			<fileset basedir="${path.base}">
 				<include name="lib/*.*"/>
 				<include name="**/*.cs"/>
@@ -255,5 +344,4 @@
 		<property name="version.revision" value="${gitrevisionnumber}" overwrite="true" />
 		<delete file="${temp.revision.file}" failonerror="false"/>
 	</target>
-	
 </project>
