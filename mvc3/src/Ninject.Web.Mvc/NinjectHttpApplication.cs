@@ -18,14 +18,8 @@
 //-------------------------------------------------------------------------------
 namespace Ninject.Web.Mvc
 {
-    using System.Linq;
     using System.Web;
-    using System.Web.Mvc;
-    using System.Web.Routing;
     using Ninject.Infrastructure;
-    using Ninject.Syntax;
-    using Ninject.Web.Mvc.Filter;
-    using Ninject.Web.Mvc.Validation;
 
     /// <summary>
     /// Defines an <see cref="HttpApplication"/> that is controlled by a Ninject <see cref="IKernel"/>.
@@ -37,10 +31,7 @@ namespace Ninject.Web.Mvc
         /// </summary>
         private readonly OnePerRequestModule onePerRequestModule;
 
-        /// <summary>
-        /// The ninject kernel of the application
-        /// </summary>
-        private static IKernel kernel;
+        private readonly IBootstrapper bootstrapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NinjectHttpApplication"/> class.
@@ -49,14 +40,19 @@ namespace Ninject.Web.Mvc
         {
             this.onePerRequestModule = new OnePerRequestModule();
             this.onePerRequestModule.Init(this);
+            this.bootstrapper = new Bootstrapper();
         }
-        
+
         /// <summary>
         /// Gets the kernel.
         /// </summary>
+        /// <value>The kernel.</value>
         public IKernel Kernel
         {
-            get { return kernel; }
+            get
+            {
+                return this.bootstrapper.Kernel;
+            }
         }
         
         /// <summary>
@@ -66,28 +62,7 @@ namespace Ninject.Web.Mvc
         {
             lock (this)
             {
-                kernel = this.CreateKernel();
-
-                kernel.Bind<IResolutionRoot>().ToConstant(kernel);
-                kernel.Bind<IDependencyResolver>().To<NinjectDependencyResolver>();
-                kernel.Bind<IFilterProvider>().To<NinjectFilterAttributeFilterProvider>();
-                kernel.Bind<IFilterProvider>().To<NinjectFilterProvider>();
-                kernel.Bind<RouteCollection>().ToConstant(RouteTable.Routes);
-                kernel.Bind<HttpContext>().ToMethod(ctx => HttpContext.Current).InTransientScope();
-                kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InTransientScope();
-                kernel.Bind<ModelValidatorProvider>().To<NinjectDataAnnotationsModelValidatorProvider>();
-
-                ModelValidatorProviders.Providers.Remove(ModelValidatorProviders.Providers.OfType<DataAnnotationsModelValidatorProvider>().Single());
-                DependencyResolver.SetResolver(this.CreateDependencyResolver());
-                RemoveDefaultAttributeFilterProvider();
-
-                kernel.Inject(this);
-
-                if (kernel.Settings.Get("ReleaseScopeAtRequestEnd", true))
-                {
-                    OnePerRequestModule.StartManaging(kernel);
-                }
-
+                this.bootstrapper.Initialize(this.CreateKernel);
                 this.OnApplicationStarted();
             }
         }
@@ -99,30 +74,16 @@ namespace Ninject.Web.Mvc
         {
             lock (this)
             {
-                if (kernel != null)
-                {
-                    kernel.Dispose();
-                    kernel = null;
-                }
-
+                this.bootstrapper.ShutDown();
                 this.OnApplicationStopped();
             }
         }
 
         /// <summary>
-        /// Creates the kernel that will manage your application.
+        /// Creates the kernel.
         /// </summary>
-        /// <returns>The created kernel.</returns>
+        /// <returns>The kernel.</returns>
         protected abstract IKernel CreateKernel();
-
-        /// <summary>
-        /// Creates the controller factory that is used to create the controllers.
-        /// </summary>
-        /// <returns>The created controller factory.</returns>
-        protected IDependencyResolver CreateDependencyResolver()
-        {
-            return this.Kernel.Get<IDependencyResolver>();
-        }
 
         /// <summary>
         /// Called when the application is started.
@@ -136,15 +97,6 @@ namespace Ninject.Web.Mvc
         /// </summary>
         protected virtual void OnApplicationStopped()
         {
-        }
-
-        /// <summary>
-        /// Removes the default attribute filter provider.
-        /// </summary>
-        private static void RemoveDefaultAttributeFilterProvider()
-        {
-            var oldFilter = FilterProviders.Providers.Single(f => f is FilterAttributeFilterProvider);
-            FilterProviders.Providers.Remove(oldFilter);
         }
     }
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>Ninject.Web.Mvc2</id>
+    <version>2.2.0.1</version>
+    <authors>Nate Kohari, Ian Davis, Remo Gloor</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/ninject/ninject.web.mvc/raw/master/mvc2/LICENSE.txt</licenseUrl>
+    <description>Extension for Ninject providing integration with ASP.NET MVC2</description>
+    <summary>Extension for Ninject providing integration with ASP.NET MVC2</summary>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="Ninject" version="2.2.0.0" />
+    </dependencies> 
+  </metadata>
+</package>

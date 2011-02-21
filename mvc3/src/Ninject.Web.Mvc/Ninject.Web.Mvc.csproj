@@ -87,6 +87,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="FilterBindingSyntax\FilterFilterBindingBuilder.cs" />
     <Compile Include="FilterBindingSyntax\IFilterBindingNamedSyntax.cs" />
     <Compile Include="FilterBindingSyntax\IFilterBindingOnSyntax.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="FilterBindingSyntax\IFilterBindingWhenSyntax.cs" />
     <Compile Include="Filter\INinjectFilter.cs" />
     <Compile Include="FilterBindingSyntax\BindingRootExtensions.cs" />
+    <Compile Include="IBootstrapper.cs" />
     <Compile Include="Validation\NinjectDataAnnotationsModelValidatorProvider.cs" />
     <Compile Include="NinjectDependencyResolver.cs" />
     <Compile Include="Filter\NinjectFilter.cs" />
