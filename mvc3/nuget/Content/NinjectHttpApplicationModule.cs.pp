@@ -10,8 +10,7 @@ namespace $rootnamespace$
     {
         #region Ninject Mvc3 extension bootstrapper (Do not touch this code)
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
-        private static bool initialized;
-        private static bool kernelDisposed;
+        private static int moduleInstanceCount;
 
         /// <summary>
         /// Initializes a module and prepares it to handle requests.
@@ -22,12 +21,11 @@ namespace $rootnamespace$
         {
             lock (bootstrapper)
             {
-                if (initialized)
+                if (moduleInstanceCount++ > 0)
                 {
                     return;
                 }
 
-                initialized = true;
                 bootstrapper.Initialize(CreateKernel);
             }
         }
@@ -40,12 +38,11 @@ namespace $rootnamespace$
         {
             lock (bootstrapper)
             {
-                if (kernelDisposed)
+                if (--moduleInstanceCount == 0)
                 {
                     return;
                 }
 
-                kernelDisposed = true;
                 bootstrapper.ShutDown();
             }
         }
