@@ -63,7 +63,7 @@ namespace Ninject.Web.Mvc
         /// <returns>All service instances or an empty enumerable if none is configured.</returns>
         public IEnumerable<object> GetServices(Type serviceType)
         {
-            return this.resolutionRoot.GetAll(serviceType);
+            return this.resolutionRoot.GetAll(serviceType).ToList();
         }
     }
 }
