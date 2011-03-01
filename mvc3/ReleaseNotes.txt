@@ -1,0 +1,7 @@
+Version 2.2.1.0
+---------------
+- Bugfix: Removed th bug that occured when the filters were reparsed by ASP.NET and left the application in an unsuable state
+- Bugfix: NuGet package does not dispose the kernel anymore befor the application was shutdown
+- Change for NuGet: Changed to WebActivator 1.4
+- Change for NUGet: Changed the class named according to the naming conventions of WebActivator. 
+  NOTE: You have to move the kernel configuration code from NinjectHttpApplicationModule to AppStart/NinjectMVC3
