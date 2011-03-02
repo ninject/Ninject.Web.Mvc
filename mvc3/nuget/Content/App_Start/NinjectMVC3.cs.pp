@@ -1,7 +1,7 @@
-﻿[assembly: WebActivator.PreApplicationStartMethod(typeof($rootnamespace$.AppStart.NinjectMVC3), "Start")]
-[assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof($rootnamespace$.AppStart.NinjectMVC3), "Stop")]
+﻿[assembly: WebActivator.PreApplicationStartMethod(typeof($rootnamespace$.App_Start.NinjectMVC3), "Start")]
+[assembly: WebActivator.ApplicationShutdownMethod(typeof($rootnamespace$.App_Start.NinjectMVC3), "Stop")]
 
-namespace $rootnamespace$.AppStart
+namespace $rootnamespace$.App_Start
 {
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
