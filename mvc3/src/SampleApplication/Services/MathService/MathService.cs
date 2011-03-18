@@ -24,6 +24,8 @@ namespace SampleApplication.Services.MathService
     /// </summary>
     public class MathService : IMathService
     {
+        private int currentNumber;
+
         /// <summary>
         /// Calculates the sum the specified summands.
         /// </summary>
@@ -33,6 +35,15 @@ namespace SampleApplication.Services.MathService
         public int Add(int summand1, int summand2)
         {
             return summand1 + summand2;
+        }
+
+        /// <summary>
+        /// Counts from 1 upwards. On each call the next number is returned.
+        /// </summary>
+        /// <returns></returns>
+        public int Count()
+        {
+            return this.currentNumber++;
         }
     }
 }

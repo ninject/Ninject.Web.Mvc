@@ -7,7 +7,7 @@
 	<property name="product.description" value="Ninject support for MVC3" overwrite="false"/>
 	<property name="product.platforms" value="net-4.0"  overwrite="false"/>
 	<property name="product.buildserverPlatforms" value="net-4.0"  overwrite="false"/>
-	<property name="dependencies" value="Ninject"  overwrite="false"/>
+	<property name="dependencies" value="Ninject,Ninject.Web.Common"  overwrite="false"/>
 
 	<include buildfile="Ninject.include" />
 	<target name="all" depends="core"/>
@@ -28,6 +28,7 @@
 				<include name="${path.lib}/Mvc3/System.Web.Mvc.dll"/>
 				<include name="${path.lib}/ReferenceAssemblies/${build.platform}/System.Web.Routing.dll"/>
 				<include name="${path.lib}/Ninject/${build.platform}/Ninject.dll"/>
+				<include name="${path.lib}/Ninject.Web.Common/${build.platform}/Ninject.Web.Common.dll"/>
 			</references>
 		</csc>
 	</target>

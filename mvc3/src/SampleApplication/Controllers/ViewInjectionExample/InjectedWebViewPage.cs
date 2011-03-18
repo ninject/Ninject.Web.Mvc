@@ -34,5 +34,12 @@ namespace SampleApplication.Controllers.ViewInjectionExample
         /// <value>The math service.</value>
         [Inject]
         public IMathService MathService { get; set; }
+
+        /// <summary>
+        /// Gets or sets the math service2.
+        /// </summary>
+        /// <value>The math service2.</value>
+        [Inject]
+        public IMathService MathService2 { get; set; }
     }
 }

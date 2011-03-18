@@ -26,6 +26,7 @@ namespace Ninject.Web.Mvc.FilterBindingSyntax
     using Ninject.Parameters;
     using Ninject.Planning.Bindings;
     using Ninject.Syntax;
+    using Ninject.Web.Common;
     using Ninject.Web.Mvc.Filter;
 
     /// <summary>

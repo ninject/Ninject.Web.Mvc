@@ -20,6 +20,7 @@
 namespace SampleApplication.Services.MathService
 {
     using Ninject.Modules;
+    using Ninject.Web.Common;
 
     /// <summary>
     /// The ninject binding module for the math service.
@@ -31,7 +32,7 @@ namespace SampleApplication.Services.MathService
         /// </summary>
         public override void Load()
         {
-            this.Bind<IMathService>().To<MathService>();
+            this.Bind<IMathService>().To<MathService>().InRequestScope();
         }
     }
 }

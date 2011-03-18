@@ -31,5 +31,11 @@ namespace SampleApplication.Services.MathService
         /// <param name="summand2">The summand 2.</param>
         /// <returns>The sum of the summands.</returns>
         int Add(int summand1, int summand2);
+
+        /// <summary>
+        /// Counts from 1 upwards. On each call the next number is returned.
+        /// </summary>
+        /// <returns></returns>
+        int Count();
     }
 }

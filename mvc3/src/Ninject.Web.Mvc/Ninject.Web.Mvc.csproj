@@ -62,6 +62,9 @@
     <Reference Include="Ninject">
       <HintPath>..\..\..\lib\Ninject\net-4.0\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.Web.Common">
+      <HintPath>..\..\..\lib\Ninject.Web.Common\net-4.0\Ninject.Web.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core">
@@ -87,7 +90,6 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Bootstrapper.cs" />
     <Compile Include="FilterBindingSyntax\FilterFilterBindingBuilder.cs" />
     <Compile Include="FilterBindingSyntax\IFilterBindingNamedSyntax.cs" />
     <Compile Include="FilterBindingSyntax\IFilterBindingOnSyntax.cs" />
@@ -100,13 +102,13 @@
     <Compile Include="FilterBindingSyntax\IFilterBindingWhenSyntax.cs" />
     <Compile Include="Filter\INinjectFilter.cs" />
     <Compile Include="FilterBindingSyntax\BindingRootExtensions.cs" />
-    <Compile Include="IBootstrapper.cs" />
+    <Compile Include="MvcModule.cs" />
+    <Compile Include="NinjectMvcHttpApplicationPlugin.cs" />
     <Compile Include="Validation\NinjectDataAnnotationsModelValidatorProvider.cs" />
     <Compile Include="NinjectDependencyResolver.cs" />
     <Compile Include="Filter\NinjectFilter.cs" />
     <Compile Include="Filter\NinjectFilterAttributeFilterProvider.cs" />
     <Compile Include="Filter\NinjectFilterProvider.cs" />
-    <Compile Include="NinjectHttpApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
