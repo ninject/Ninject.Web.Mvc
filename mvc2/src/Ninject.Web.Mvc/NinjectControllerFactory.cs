@@ -45,7 +45,7 @@ namespace Ninject.Web.Mvc
                 return base.GetControllerInstance(requestContext, controllerType);
             }
 
-            var controller = this.Kernel.TryGet(controllerType) as IController;
+            var controller = this.Kernel.Get(controllerType) as IController;
 
             return controller ?? base.GetControllerInstance(requestContext, controllerType);
         }

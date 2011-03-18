@@ -40,6 +40,10 @@
     <Reference Include="Ninject">
       <HintPath>..\..\..\lib\Ninject\net-3.5\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.Web.Common, Version=0.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\Ninject.Web.Common\net-3.5\Ninject.Web.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />

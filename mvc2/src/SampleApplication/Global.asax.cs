@@ -19,11 +19,12 @@
 
 namespace SampleApplication
 {
+    using System.Reflection;
     using System.Web.Mvc;
     using System.Web.Routing;
     using log4net;
     using Ninject;
-    using Ninject.Web.Mvc;
+    using Ninject.Web.Common;
     using SampleApplication.Controllers;
 
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -67,6 +68,7 @@ namespace SampleApplication
             var kernel = new StandardKernel();
             kernel.Bind<IHomeControllerModel>().To<HomeControllerModel>();
             kernel.Bind<ILog>().ToMethod(ctx => LogManager.GetLogger("xxx"));
+            kernel.Load(Assembly.GetExecutingAssembly());
             return kernel;
         }
     }
