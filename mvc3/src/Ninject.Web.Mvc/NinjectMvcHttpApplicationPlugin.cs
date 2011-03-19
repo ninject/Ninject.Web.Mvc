@@ -31,6 +31,9 @@ namespace Ninject.Web.Mvc
     /// </summary>
     public class NinjectMvcHttpApplicationPlugin : NinjectComponent, INinjectHttpApplicationPlugin
     {
+        /// <summary>
+        /// The ninject kernel.
+        /// </summary>
         private readonly IKernel kernel;
 
         /// <summary>
