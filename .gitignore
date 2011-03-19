@@ -9,3 +9,5 @@ dist
 *.cache
 lib/Ninject/*.zip
 lib/Ninject/*/**
+lib/Ninject.Web.Common/*.zip
+lib/Ninject.Web.Common/*/**
