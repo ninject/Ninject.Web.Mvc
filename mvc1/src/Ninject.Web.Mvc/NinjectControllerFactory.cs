@@ -40,7 +40,7 @@ namespace Ninject.Web.Mvc
 		/// <returns>The controller instance.</returns>
 		protected override IController GetControllerInstance(Type controllerType)
 		{
-			var controller = Kernel.TryGet(controllerType) as IController;
+			var controller = Kernel.Get(controllerType) as IController;
 
 			if (controller == null)
 				return base.GetControllerInstance(controllerType);
