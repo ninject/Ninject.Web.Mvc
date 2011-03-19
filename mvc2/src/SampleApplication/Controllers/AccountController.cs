@@ -40,18 +40,18 @@ namespace SampleApplication.Controllers
             IMembershipService membershipService)
         {
             this.MembershipService = membershipService;
-            this.FormsService = formsAuthenticationService;
+            this.FormsAuthenticationService = formsAuthenticationService;
         }
 
         /// <summary>
-        /// Gets or sets FormsService.
+        /// Gets the forms authentication service.
         /// </summary>
-        public IFormsAuthenticationService FormsService { get; set; }
+        public IFormsAuthenticationService FormsAuthenticationService { get; private set; }
 
         /// <summary>
-        /// Gets or sets MembershipService.
+        /// Gets the membership service.
         /// </summary>
-        public IMembershipService MembershipService { get; set; }
+        public IMembershipService MembershipService { get; private set; }
 
         /// <summary>
         /// The log on action
@@ -75,7 +75,7 @@ namespace SampleApplication.Controllers
             {
                 if (this.MembershipService.ValidateUser(model.UserName, model.Password))
                 {
-                    this.FormsService.SignIn(model.UserName, model.RememberMe);
+                    this.FormsAuthenticationService.SignIn(model.UserName, model.RememberMe);
                     if (!String.IsNullOrEmpty(returnUrl))
                     {
                         return Redirect(returnUrl);
@@ -97,7 +97,7 @@ namespace SampleApplication.Controllers
         /// <returns>Redirect to the home view.</returns>
         public ActionResult LogOff()
         {
-            this.FormsService.SignOut();
+            this.FormsAuthenticationService.SignOut();
 
             return RedirectToAction("Index", "Home");
         }
@@ -128,7 +128,7 @@ namespace SampleApplication.Controllers
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
-                    this.FormsService.SignIn(model.UserName, false /* createPersistentCookie */);
+                    this.FormsAuthenticationService.SignIn(model.UserName, false /* createPersistentCookie */);
                     return RedirectToAction("Index", "Home");
                 }
 
