@@ -40,7 +40,6 @@ namespace Ninject.Web.Mvc
         public override void Load()
         {
             this.Kernel.Components.Add<INinjectHttpApplicationPlugin, NinjectMvcHttpApplicationPlugin>();
-            this.Kernel.Bind<IResolutionRoot>().ToConstant(this.Kernel);
             this.Kernel.Bind<IDependencyResolver>().To<NinjectDependencyResolver>();
             this.Kernel.Bind<IFilterProvider>().To<NinjectFilterAttributeFilterProvider>();
             this.Kernel.Bind<IFilterProvider>().To<NinjectFilterProvider>();
