@@ -19,7 +19,10 @@
 
 namespace Ninject.Web.Mvc.Filter
 {
+    using System;
     using System.Web.Mvc;
+
+    using Ninject.Web.Mvc.FilterBindingSyntax;
 
     /// <summary>
     /// Creates a filter of the specified type using ninject.
@@ -42,17 +45,21 @@ namespace Ninject.Web.Mvc.Filter
         /// </summary>
         private readonly int? order;
 
+        private readonly Guid filterId;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NinjectFilter&lt;T&gt;"/> class.
         /// </summary>
         /// <param name="kernel">The kernel.</param>
         /// <param name="scope">The filter scope.</param>
         /// <param name="order">The filter order.</param>
-        public NinjectFilter(IKernel kernel, FilterScope scope, int? order)
+        /// <param name="filterId">The filter id.</param>
+        public NinjectFilter(IKernel kernel, FilterScope scope, int? order, Guid filterId)
         {
             this.kernel = kernel;
             this.scope = scope;
             this.order = order;
+            this.filterId = filterId;
         }
 
         /// <summary>
@@ -62,7 +69,10 @@ namespace Ninject.Web.Mvc.Filter
         /// <returns>The created filter.</returns>
         public Filter BuildFilter(FilterContextParameter parameter)
         {
-            return new Filter(this.kernel.Get<T>(parameter), this.scope, this.order);
+            return new Filter(
+                this.kernel.Get<T>(m => m.Get(BindingRootExtensions.FilterIdMetadataKey, Guid.Empty).Equals(this.filterId), parameter), 
+                this.scope, 
+                this.order);
         }
     }
 }

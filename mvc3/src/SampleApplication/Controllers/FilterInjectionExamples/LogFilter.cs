@@ -32,13 +32,17 @@ namespace SampleApplication.Controllers.FilterInjectionExamples
         /// </summary>
         private readonly ILog log;
 
+        private readonly string prefix;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LogFilter"/> class.
         /// </summary>
         /// <param name="log">The logger used to log.</param>
-        public LogFilter(ILog log)
+        /// <param name="prefix">The prefix.</param>
+        public LogFilter(ILog log, string prefix)
         {
             this.log = log;
+            this.prefix = prefix;
         }
 
         /// <summary>
@@ -49,9 +53,10 @@ namespace SampleApplication.Controllers.FilterInjectionExamples
         public void OnActionExecuting(ActionExecutingContext filterContext)
         {
             this.log.DebugFormat(
-                "Executing action {0}.{1}", 
+                "{2}Executing action {0}.{1}", 
                 filterContext.ActionDescriptor.ControllerDescriptor.ControllerName, 
-                filterContext.ActionDescriptor.ActionName);
+                filterContext.ActionDescriptor.ActionName,
+                this.prefix);
         }
 
         /// <summary>

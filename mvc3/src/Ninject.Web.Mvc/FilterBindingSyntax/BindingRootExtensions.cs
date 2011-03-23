@@ -19,6 +19,7 @@
 
 namespace Ninject.Web.Mvc.FilterBindingSyntax
 {
+    using System;
     using System.Web.Mvc;
     using Ninject.Parameters;
     using Ninject.Syntax;
@@ -30,6 +31,11 @@ namespace Ninject.Web.Mvc.FilterBindingSyntax
     public static class BindingRootExtensions
     {
         /// <summary>
+        /// The key used to store the filter id in the binding metadata.
+        /// </summary>
+        public const string FilterIdMetadataKey = "FilterId";
+
+        /// <summary>
         /// Creates a binding for a filter.
         /// </summary>
         /// <typeparam name="T">The type of the filter.</typeparam>
@@ -37,12 +43,17 @@ namespace Ninject.Web.Mvc.FilterBindingSyntax
         /// <param name="scope">The filter scope.</param>
         /// <param name="order">The filter order.</param>
         /// <returns>The fluent syntax to specify more information for the binding.</returns>
-        public static IFilterBindingWhenSyntax<T> BindFilter<T>(this IBindingRoot kernel, FilterScope scope, int? order)
+        public static IFilterBindingWhenInNamedWithOrOnSyntax<T> BindFilter<T>(this IBindingRoot kernel, FilterScope scope, int? order)
         {
+            var filterId = Guid.NewGuid();
+
             var filterBinding = kernel.Bind<T>().ToSelf();
+            filterBinding.WithMetadata(FilterIdMetadataKey, filterId);
+            
             var ninjectFilterBinding = kernel.Bind<INinjectFilter>().To<NinjectFilter<T>>();
             ninjectFilterBinding.Binding.Parameters.Add(new ConstructorArgument("scope", scope));
             ninjectFilterBinding.Binding.Parameters.Add(new ConstructorArgument("order", order));
+            ninjectFilterBinding.Binding.Parameters.Add(new ConstructorArgument("filterId", filterId));
             return new FilterFilterBindingBuilder<T>(ninjectFilterBinding, filterBinding);
         }
     }

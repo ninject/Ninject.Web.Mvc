@@ -93,6 +93,7 @@
     <Compile Include="FilterBindingSyntax\FilterFilterBindingBuilder.cs" />
     <Compile Include="FilterBindingSyntax\IFilterBindingNamedSyntax.cs" />
     <Compile Include="FilterBindingSyntax\IFilterBindingOnSyntax.cs" />
+    <Compile Include="FilterBindingSyntax\IFilterBindingWhenInNamedWithOrOnSyntax.cs" />
     <Compile Include="FilterBindingSyntax\IFilterBindingWithOrOnSyntax.cs" />
     <Compile Include="FilterBindingSyntax\IFilterBindingInSyntax.cs" />
     <Compile Include="FilterBindingSyntax\IFilterBindingNamedWithOrOnSyntax.cs" />

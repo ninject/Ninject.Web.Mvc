@@ -38,7 +38,8 @@ namespace SampleApplication.Controllers.FilterInjectionExamples
         public override void Load()
         {
             this.Bind<ILog>().ToMethod(GetLogger);
-            this.BindFilter<LogFilter>(FilterScope.Controller, 0); // Every action of the application is logged
+            this.BindFilter<LogFilter>(FilterScope.Controller, 0).WithConstructorArgument("prefix", "A: "); // Every action of the application is logged
+            this.BindFilter<LogFilter>(FilterScope.Controller, 0).WithConstructorArgument("prefix", "B: "); // Every action of the application is logged
             this.BindFilter<DistributedCacheFilter>(FilterScope.Action, 0)
                 .WhenActionMethodHas<CacheAttribute>() // Every action with the CacheAttribute is cached
                 .WithConstructorArgumentFromActionAttribute<CacheAttribute>("expirationTime", attribute => attribute.Duration);

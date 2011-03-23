@@ -34,7 +34,7 @@ namespace Ninject.Web.Mvc.FilterBindingSyntax
     /// </summary>
     /// <typeparam name="T">The type of the filter.</typeparam>
     public class FilterFilterBindingBuilder<T> :
-        IFilterBindingWhenSyntax<T>, 
+        IFilterBindingWhenInNamedWithOrOnSyntax<T>, 
         IFilterBindingInNamedWithOrOnSyntax<T>, 
         IFilterBindingNamedWithOrOnSyntax<T>, 
         IFilterBindingWithOrOnSyntax<T>
