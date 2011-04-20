@@ -9,9 +9,15 @@
     <description>Extension for Ninject providing integration with ASP.NET MVC3</description>
     <summary>Extension for Ninject providing integration with ASP.NET MVC3</summary>
     <language>en-US</language>
+	<tags>Ninject ioc di web mvc3</tags>
+	<iconUrl>https://github.com/ninject/ninject/raw/master/logos/Ninject-Logo32.png</iconUrl>
+	<projectUrl>http://www.ninject.org</projectUrl>
     <dependencies>
       <dependency id="Ninject" version="2.2.0.0" />
       <dependency id="WebActivator" version="1.4" />
-    </dependencies> 
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Microsoft.Web.Infrastructure" targetFramework="net40" />
+    </frameworkAssemblies>
   </metadata>
 </package>
