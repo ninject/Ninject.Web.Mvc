@@ -24,7 +24,6 @@ namespace Ninject.Web.Mvc
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
-
     using Ninject.Syntax;
     using Ninject.Web.Mvc.Filter;
     using Ninject.Web.Mvc.Validation;
@@ -42,6 +41,7 @@ namespace Ninject.Web.Mvc
         /// <summary>
         /// Gets the kernel.
         /// </summary>
+        [Obsolete("Do not use Ninject as Service Locator")]
         public IKernel Kernel
         {
             get { return kernelInstance; }
@@ -53,22 +53,34 @@ namespace Ninject.Web.Mvc
         /// <param name="createKernelCallback">The create kernel callback function.</param>
         public void Initialize(Func<IKernel> createKernelCallback)
         {
+            if (kernelInstance != null)
+            {
+                throw new InvalidOperationException("Already Initialized!");
+            }
+
             kernelInstance = createKernelCallback();
 
-            this.Kernel.Bind<IResolutionRoot>().ToConstant(kernelInstance);
-            this.Kernel.Bind<IDependencyResolver>().To<NinjectDependencyResolver>();
-            this.Kernel.Bind<IFilterProvider>().To<NinjectFilterAttributeFilterProvider>();
-            this.Kernel.Bind<IFilterProvider>().To<NinjectFilterProvider>();
-            this.Kernel.Bind<RouteCollection>().ToConstant(RouteTable.Routes);
-            this.Kernel.Bind<HttpContext>().ToMethod(ctx => HttpContext.Current).InTransientScope();
-            this.Kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InTransientScope();
-            this.Kernel.Bind<ModelValidatorProvider>().To<NinjectDataAnnotationsModelValidatorProvider>();
+            kernelInstance.Bind<IResolutionRoot>().ToConstant(kernelInstance);
+            kernelInstance.Bind<IDependencyResolver>().To<NinjectDependencyResolver>();
+            kernelInstance.Bind<IFilterProvider>().To<NinjectFilterAttributeFilterProvider>();
+            kernelInstance.Bind<IFilterProvider>().To<NinjectFilterProvider>();
+            kernelInstance.Bind<RouteCollection>().ToConstant(RouteTable.Routes);
+            kernelInstance.Bind<HttpContext>().ToMethod(ctx => HttpContext.Current).InTransientScope();
+            kernelInstance.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InTransientScope();
+            kernelInstance.Bind<ModelValidatorProvider>().To<NinjectDataAnnotationsModelValidatorProvider>();
 
             ModelValidatorProviders.Providers.Remove(ModelValidatorProviders.Providers.OfType<DataAnnotationsModelValidatorProvider>().Single());
-            DependencyResolver.SetResolver(this.CreateDependencyResolver());
+            DependencyResolver.SetResolver(CreateDependencyResolver());
             RemoveDefaultAttributeFilterProvider();
+        }
 
-            this.Kernel.Inject(this);
+        /// <summary>
+        /// Initializes a HttpApplication instance.
+        /// </summary>
+        /// <param name="httpApplication">The HttpApplication instance.</param>
+        public void InitializeHttpApplication(HttpApplication httpApplication)
+        {
+            kernelInstance.Inject(httpApplication);
         }
 
         /// <summary>
@@ -76,9 +88,9 @@ namespace Ninject.Web.Mvc
         /// </summary>
         public void ShutDown()
         {
-            if (this.Kernel != null)
+            if (kernelInstance != null)
             {
-                this.Kernel.Dispose();
+                kernelInstance.Dispose();
                 kernelInstance = null;
             }
         }
@@ -87,9 +99,9 @@ namespace Ninject.Web.Mvc
         /// Creates the controller factory that is used to create the controllers.
         /// </summary>
         /// <returns>The created controller factory.</returns>
-        private IDependencyResolver CreateDependencyResolver()
+        private static IDependencyResolver CreateDependencyResolver()
         {
-            return this.Kernel.Get<IDependencyResolver>();
+            return kernelInstance.Get<IDependencyResolver>();
         }
 
         /// <summary>

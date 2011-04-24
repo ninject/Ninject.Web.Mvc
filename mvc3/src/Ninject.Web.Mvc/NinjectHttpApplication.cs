@@ -18,6 +18,7 @@
 //-------------------------------------------------------------------------------
 namespace Ninject.Web.Mvc
 {
+    using System;
     using System.Web;
     using Ninject.Infrastructure;
 
@@ -47,12 +48,22 @@ namespace Ninject.Web.Mvc
         /// Gets the kernel.
         /// </summary>
         /// <value>The kernel.</value>
+        [Obsolete("Do not use Ninject as Service Locator")]
         public IKernel Kernel
         {
             get
             {
                 return this.bootstrapper.Kernel;
             }
+        }
+
+        /// <summary>
+        /// Executes custom initialization code after all event handler modules have been added.
+        /// </summary>
+        public override void Init()
+        {
+            base.Init();
+            this.bootstrapper.InitializeHttpApplication(this);
         }
         
         /// <summary>

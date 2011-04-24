@@ -19,6 +19,7 @@
 
 namespace SampleApplication
 {
+#if !NUGET
     using System.Reflection;
     using System.Web.Mvc;
     using System.Web.Routing;
@@ -79,4 +80,52 @@ namespace SampleApplication
             RegisterRoutes(RouteTable.Routes);
         }
     }
+
+#else
+    using System.Web;
+    using System.Web.Mvc;
+    using System.Web.Routing;
+    
+    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
+    // visit http://go.microsoft.com/?LinkId=9394801
+
+    /// <summary>
+    /// The bootstrapper for the application.
+    /// </summary>
+    public class MvcApplication : HttpApplication
+    {
+        /// <summary>
+        /// Registers the global filters.
+        /// </summary>
+        /// <param name="filters">The filters.</param>
+        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        {
+            filters.Add(new HandleErrorAttribute());
+        }
+
+        /// <summary>
+        /// Registers the routes.
+        /// </summary>
+        /// <param name="routes">The routes.</param>
+        public static void RegisterRoutes(RouteCollection routes)
+        {
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+                "Default", // Route name
+                "{controller}/{action}/{id}", // URL with parameters
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional });
+        }
+
+        /// <summary>
+        /// Called when the application is started.
+        /// </summary>
+        public void Application_Start()
+        {
+            AreaRegistration.RegisterAllAreas();
+            RegisterGlobalFilters(GlobalFilters.Filters);
+            RegisterRoutes(RouteTable.Routes);
+        }
+    }
+#endif
 }

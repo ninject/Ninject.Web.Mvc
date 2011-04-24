@@ -19,30 +19,21 @@
 
 namespace Ninject.Web.Mvc
 {
-    using System;
     using System.Web;
-    using Ninject.Infrastructure;
+    using Ninject.Infrastructure.Disposal;
 
     /// <summary>
-    /// A basic bootstrapper that can be used to setup web applications.
+    /// Initializes a HttpApplication instance
     /// </summary>
-    public interface IBootstrapper : IHaveKernel
+    public class HttpApplicationInitializationModule : DisposableObject, IHttpModule
     {
         /// <summary>
-        /// Starts the application.
+        /// Initializes a module and prepares it to handle requests.
         /// </summary>
-        /// <param name="createKernelCallback">The create kernel callback function.</param>
-        void Initialize(Func<IKernel> createKernelCallback);
-
-        /// <summary>
-        /// Initializes a HttpApplication instance.
-        /// </summary>
-        /// <param name="httpApplication">The HttpApplication instance.</param>
-        void InitializeHttpApplication(HttpApplication httpApplication);
-
-        /// <summary>
-        /// Releases the kernel on application end.
-        /// </summary>
-        void ShutDown();
+        /// <param name="context">An <see cref="T:System.Web.HttpApplication"/> that provides access to the methods, properties, and events common to all application objects within an ASP.NET application</param>
+        public void Init(HttpApplication context)
+        {
+            new Bootstrapper().InitializeHttpApplication(context);
+        }
     }
 }
