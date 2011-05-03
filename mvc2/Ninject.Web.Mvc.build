@@ -7,6 +7,7 @@
 	<property name="product.description" value="Ninject support for MVC" overwrite="false"/>
 	<property name="product.platforms" value="net-3.5,net-4.0,mono-2.0"  overwrite="false"/>
 	<property name="product.buildserverPlatforms" value="net-3.5,net-4.0,mono-2.0"  overwrite="false"/>
+	<property name="product.packagePostfix" value="2" overwrite="false"/>
 	<property name="dependencies" value="Ninject"  overwrite="false"/>
 
 	<include buildfile="Ninject.include" />
