@@ -1,3 +1,7 @@
+Version 2.2.2.0
+---------------
+- Http Application is property injected after it is created
+
 Version 2.2.1.0
 ---------------
 - Bugfix: Removed th bug that occured when the filters were reparsed by ASP.NET and left the application in an unsuable state
