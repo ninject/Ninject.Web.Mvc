@@ -11,8 +11,11 @@
 	<property name="dependencies" value="Ninject,Ninject.Web.Common"  overwrite="false"/>
 
 	<include buildfile="Ninject.include" />
+	<property name="path.lib" value="${path.base}/../lib"/>
+	<property name="path.tools" value="${path.base}/../tools"/>
+	
 	<target name="all" depends="core"/>
-	<target name="nuget-all" depends="nuget"/>
+	<target name="nuget-all" depends="nuget-mvc3"/>
 
 	<target name="core" depends="init">
 		<csc noconfig="true" warnaserror="true" target="library" debug="${build.debug}" optimize="${build.optimize}" define="${build.defines}" output="${current.path.build}/${product.assembly}" doc="${current.path.build}/${product.docfile}" keyfile="${path.src}/${product.keyfile}">
@@ -38,4 +41,19 @@
 	<target name="compile-tests"/>
 
 	<target name="compile-silverlight-tests"/>
+	
+	<target name="nuget-mvc3">
+		<property name="nuget.sourcedir" value="${path.base}/nuget" />
+		<property name="nuget.basedir" value="${path.base}/build/nuget" />
+		<property name="nuget.symbol.basedir" value="${path.base}/build/nuget_symbol" />
+		<property name="nuget.platforms" value="${product.platforms}" />
+		<property name="nuget.name" value="${product.name}" />
+		<property name="nuget.project" value="${path.src}/${product.name}/${product.name}.csproj" />
+		<property name="nuget.releaseDirectory" value="${path.build}\${build.platform}\release" dynamic="true"/>
+		<property name="nuget.dependencies" value="${dependencies}" />
+		<property name="nuget.additionalFiles" value="-" />
+		<property name="nuget.packageName" value="Ninject.MVC3.${build.version}" />	
+
+		<call target="nuget-run"/>
+	</target>
 </project>

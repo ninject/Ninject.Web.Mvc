@@ -11,6 +11,9 @@
 	<property name="dependencies" value="Ninject,Ninject.Web.Common"  overwrite="false"/>
 
 	<include buildfile="Ninject.include" />
+	<property name="path.lib" value="${path.base}/../lib"/>
+	<property name="path.tools" value="${path.base}/../tools"/>
+
 	<target name="all" depends="core"/>
 	<target name="nuget-all" depends="nuget"/>
 
