@@ -17,7 +17,5 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 using System.Reflection;
-using System.Security;
 
 [assembly: AssemblyTitle("Ninject ASP.NET MVC Integration")]
-[assembly: AllowPartiallyTrustedCallers]
