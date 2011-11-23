@@ -30,7 +30,7 @@ namespace Ninject.Web.Mvc
     /// <summary>
     /// Defines the bindings and plugins of the MVC web extension.
     /// </summary>
-    public class MvcModule: GlobalKernelRegistrationModule<OnePerRequestModule>
+    public class MvcModule: GlobalKernelRegistrationModule<OnePerRequestHttpModule>
     {
         /// <summary>
         /// Loads the module into the kernel.
