@@ -17,4 +17,6 @@ using System.Reflection;
 using System.Security;
 
 [assembly: AssemblyTitle("Ninject ASP.NET MVC Integration")]
+#if !NO_PARTIAL_TRUST
 [assembly: AllowPartiallyTrustedCallers]
+#endif

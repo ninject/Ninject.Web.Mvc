@@ -18,4 +18,6 @@
 using System.Security;
 #endregion
 
+#if !NO_PARTIAL_TRUST
 [assembly: AllowPartiallyTrustedCallers]
+#endif

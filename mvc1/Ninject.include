@@ -211,7 +211,7 @@
 
 	<target name="config-platform-net-4.0">
 		<property name="nant.settings.currentframework" value="net-4.0"/>
-		<property name="build.defines" value="${global.build.defines},NET,NET_40"/>
+		<property name="build.defines" value="${global.build.defines},NET,NET_40,NO_PARTIAL_TRUST"/>
 		<property name="path.tools.xunit.console" value="${path.tools.xunit}/xunit.console.clr4.exe"/>
 		<property name="nuget.platform" value="net40-Full"/>
 		<property name="nuget.add" value="true"/>
@@ -219,7 +219,7 @@
 
 	<target name="config-platform-net-4.0_medium_trust">
 		<property name="nant.settings.currentframework" value="net-4.0"/>
-		<property name="build.defines" value="${global.build.defines},NET,NET_40,MEDIUM_TRUST"/>
+		<property name="build.defines" value="${global.build.defines},NET,NET_40,MEDIUM_TRUST,NO_PARTIAL_TRUST"/>
 		<property name="path.tools.xunit.console" value="${path.tools.xunit}/xunit.console.clr4.exe"/>
 		<property name="nuget.add" value="false"/>
 	</target>
@@ -240,14 +240,14 @@
 
 	<target name="config-platform-silverlight-4.0">
 		<property name="nant.settings.currentframework" value="silverlight-4.0"/>
-		<property name="build.defines" value="${global.build.defines},SILVERLIGHT,SILVERLIGHT_40,NO_ASSEMBLY_SCANNING,NO_PARTIAL_TRUST,NO_SKIP_VISIBILITY,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS"/>
+		<property name="build.defines" value="${global.build.defines},SILVERLIGHT,SILVERLIGHT_40,NO_ASSEMBLY_SCANNING,NO_PARTIAL_TRUST,NO_SKIP_VISIBILITY,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS,NO_PARTIAL_TRUST"/>
 		<property name="nuget.platform" value="sl4"/>
 		<property name="nuget.add" value="true"/>
 	</target>
 	
 	<target name="config-platform-silverlight-4.0-wp7">
 		<property name="nant.settings.currentframework" value="silverlight-4.0-wp7"/>
-		<property name="build.defines" value="${global.build.defines},SILVERLIGHT,SILVERLIGHT_40,WINDOWS_PHONE,NO_LCG,NO_ASSEMBLY_SCANNING,NO_PARTIAL_TRUST,NO_SKIP_VISIBILITY,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS, NO_MOQ"/>
+		<property name="build.defines" value="${global.build.defines},SILVERLIGHT,SILVERLIGHT_40,WINDOWS_PHONE,NO_LCG,NO_ASSEMBLY_SCANNING,NO_PARTIAL_TRUST,NO_SKIP_VISIBILITY,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS,NO_MOQ"/>
 		<property name="nuget.platform" value="sl3-wp"/>
 		<property name="nuget.add" value="true"/>
 	</target>
@@ -260,18 +260,26 @@
 
 	<target name="config-platform-mono-2.0">
 		<property name="nant.settings.currentframework" value="mono-2.0"/>
-		<property name="build.defines" value="${global.build.defines},NET,NET_35,MONO"/>
-		<property name="nuget.add" value="false"/>
-	</target>
-
-	<target name="config-platform-mono-2.0-no-web">
-		<property name="nant.settings.currentframework" value="mono-2.0"/>
-		<property name="build.defines" value="${global.build.defines},NET,NET_35,MONO"/>
+		<property name="build.defines" value="${global.build.defines},NET,NET_35,MONO,NO_GENERIC_MOQ"/>
 		<property name="nuget.add" value="false"/>
 	</target>
 	
 	<target name="test" depends="compile-tests" unless="${skip.tests}" if="${not(string::contains(build.platform, 'silverlight') or build.platform == 'netcf-3.5')}">
-		<exec program="${path.tools.xunit.console}" workingdir="${current.path.test}" commandline="${product.assembly.test} /html ${current.path.test}/results.html" failonerror="true"/>
+		<exec 
+			program="${path.tools.xunit.console}" 
+			workingdir="${current.path.test}" 
+			commandline="${product.assembly.test} /html ${current.path.test}/results.html" 
+			failonerror="true"
+			if="${not(string::contains(build.platform, 'mono')) or teamcity}"/>
+
+		<if test="${string::contains(build.platform, 'mono') and not(teamcity)}">
+			<exec 
+				program="${framework::get-runtime-engine(framework::get-target-framework())}" 
+				workingdir="${current.path.test}" 
+				commandline="${path.tools.xunit.console} ${product.assembly.test} /html ${current.path.test}/results.html" 
+				failonerror="true"/>
+		</if>
+			
 		<if test="${not Is64BitOperatingSystem}">
 			<exec verbose="true" program="${path.tools.ncover}/ncover.console.exe" workingdir="${current.path.test}"
 				commandline="&quot;${path.tools.xunit.console}&quot; &quot;${product.assembly.test}&quot; //reg //w &quot;.&quot; //x &quot;coverage.xml&quot;" />
@@ -488,17 +496,17 @@
 	</target>
 	
 	<target name="CopyDefaultTestInfrastructureAssemblies">
-		<call target="CopyProjectOutput"/>
 		<call target="CopyXUnit"/>
 		<call target="CopyMoq"/>
 		<call target="CopyFluentAssertions"/>
+		<call target="CopyProjectOutput"/>
 	</target>
 
 	<target name="CopyDefaultTestInfrastructureAssemblies-SL">
-		<call target="CopyProjectOutput"/>
 		<call target="CopyXUnit-SL"/>
 		<call target="CopyMoq-SL"/>
 		<call target="CopyFluentAssertions-SL"/>
+		<call target="CopyProjectOutput"/>
 	</target>
 
 	<target name="CopyFluentAssertions">
@@ -569,7 +577,7 @@
 	</target>
 
 	<target name="CopyProjectOutput">
-		<copy todir="${current.path.test}" flatten="true">
+		<copy todir="${current.path.test}" flatten="true" overwrite="true">
 			<fileset basedir="${current.path.build}">
 				<include name="**/*.dll"/>
 			</fileset>
