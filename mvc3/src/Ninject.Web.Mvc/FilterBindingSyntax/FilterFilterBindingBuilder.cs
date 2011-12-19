@@ -42,7 +42,7 @@ namespace Ninject.Web.Mvc.FilterBindingSyntax
         /// <summary>
         /// The binding of the ninject filter. Conditions are added here.
         /// </summary>
-        private readonly IBindingWhenInNamedWithOrOnSyntax<INinjectFilter> ninjectFilterBindingSyntax;
+        private readonly IBindingWhenInNamedWithOrOnSyntax<NinjectFilter<T>> ninjectFilterBindingSyntax;
 
         /// <summary>
         /// The binding of the filter. All other additionla configuration but the conditions are added here.
@@ -55,7 +55,7 @@ namespace Ninject.Web.Mvc.FilterBindingSyntax
         /// <param name="ninjectFilterBindingSyntax">The ninject filter binding syntax.</param>
         /// <param name="filterBindingSyntax">The filter binding syntax.</param>
         public FilterFilterBindingBuilder(
-            IBindingWhenInNamedWithOrOnSyntax<INinjectFilter> ninjectFilterBindingSyntax, 
+            IBindingWhenInNamedWithOrOnSyntax<NinjectFilter<T>> ninjectFilterBindingSyntax, 
             IBindingWhenInNamedWithOrOnSyntax<T> filterBindingSyntax)
         {
             this.ninjectFilterBindingSyntax = ninjectFilterBindingSyntax;
@@ -66,11 +66,11 @@ namespace Ninject.Web.Mvc.FilterBindingSyntax
         /// Gets the binding.
         /// </summary>
         /// <value>The binding.</value>
-        public IBinding Binding
+        public IBindingConfiguration BindingConfiguration
         {
             get
             {
-                return this.filterBindingSyntax.Binding;
+                return this.filterBindingSyntax.BindingConfiguration;
             }
         }
 

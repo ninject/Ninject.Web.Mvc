@@ -51,9 +51,9 @@ namespace Ninject.Web.Mvc.FilterBindingSyntax
             filterBinding.WithMetadata(FilterIdMetadataKey, filterId);
             
             var ninjectFilterBinding = kernel.Bind<INinjectFilter>().To<NinjectFilter<T>>();
-            ninjectFilterBinding.Binding.Parameters.Add(new ConstructorArgument("scope", scope));
-            ninjectFilterBinding.Binding.Parameters.Add(new ConstructorArgument("order", order));
-            ninjectFilterBinding.Binding.Parameters.Add(new ConstructorArgument("filterId", filterId));
+            ninjectFilterBinding.BindingConfiguration.Parameters.Add(new ConstructorArgument("scope", scope));
+            ninjectFilterBinding.BindingConfiguration.Parameters.Add(new ConstructorArgument("order", order));
+            ninjectFilterBinding.BindingConfiguration.Parameters.Add(new ConstructorArgument("filterId", filterId));
             return new FilterFilterBindingBuilder<T>(ninjectFilterBinding, filterBinding);
         }
     }
