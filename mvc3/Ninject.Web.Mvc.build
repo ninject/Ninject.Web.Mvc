@@ -52,7 +52,7 @@
 		<property name="nuget.releaseDirectory" value="${path.build}\${build.platform}\release" dynamic="true"/>
 		<property name="nuget.dependencies" value="${dependencies}" />
 		<property name="nuget.additionalFiles" value="-" />
-		<property name="nuget.packageName" value="Ninject.MVC3.${build.version}" />	
+		<property name="nuget.packageName" value="Ninject.MVC3" />	
 
 		<call target="nuget-run"/>
 	</target>
