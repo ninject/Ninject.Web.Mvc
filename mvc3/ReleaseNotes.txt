@@ -1,3 +1,8 @@
+Version 3.0.0.0
+---------------
+- Added: Multiple filters of the same type can be used at the same time. This allows using differently configured filters of the same type.
+- Changed: This extension requires now Ninject.Web.Common. This allows combining it with the other web extesnions (WCF + MVC)
+
 Version 2.2.2.0
 ---------------
 - Http Application is property injected after it is created

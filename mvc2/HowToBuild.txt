@@ -2,13 +2,10 @@
    http://teamcity.codebetter.com/viewType.html?tab=buildTypeStatusDiv&buildTypeId=bt243
 2. Copy all the zipped ninject files to lib/Ninject
 3. Get Ninject.Extensions.ContextPreservation e.g. from the build server
-   http://teamcity.codebetter.com/viewType.html?buildTypeId=bt245&tab=buildTypeStatusDiv
+   http://teamcity.codebetter.com/viewType.html?buildTypeId=bt360&tab=buildTypeStatusDiv
    and copy all the zip files to /lib/Ninject.Extensions.ContextPreservation
-4. Get Ninject.Extensions.NamedScope e.g. from the build server
-   http://teamcity.codebetter.com/viewType.html?buildTypeId=bt246&tab=buildTypeStatusDiv
-   and copy all the zip files to /lib/Ninject.Extensions.NamedScope
-5. Run UnzipDependencies.cmd
-6. Run build-release.cmd
+4. Run UnzipDependencies.cmd
+5. Run build-release.cmd
 
 If you are trying to build for a particular platform, please download and install the respective SDKs:
     WP7: you need the Windows Phone Developer tools (http://create.msdn.com/en-us/home/getting_started).
