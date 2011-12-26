@@ -126,7 +126,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Models\Movie\Movies.edmx.sql" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -171,12 +170,12 @@
     <Folder Include="Areas\SampleArea\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\SampleArea\Views\Web.config" />
+    <None Include="Areas\SampleArea\Views\AreaTest\Index.cshtml" />
     <EntityDeploy Include="Models\Movie\Movies.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Movies.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Areas\SampleArea\Views\Web.config" />
-    <None Include="Areas\SampleArea\Views\AreaTest\Index.cshtml" />
     <None Include="Views\Math\Index.cshtml" />
     <None Include="Views\Movie\Create.cshtml" />
     <None Include="Views\Movie\Index.cshtml" />

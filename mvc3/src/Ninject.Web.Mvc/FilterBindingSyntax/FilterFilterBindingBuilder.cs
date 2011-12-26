@@ -517,7 +517,7 @@ namespace Ninject.Web.Mvc.FilterBindingSyntax
         /// <returns>The filter context parameter from the context parameters.</returns>
         private static FilterContextParameter GetFilterContextParameter(IContext ctx)
         {
-            return (FilterContextParameter)ctx.Parameters.Single(p => p is FilterContextParameter);
+            return ctx.Parameters.OfType<FilterContextParameter>().Single();
         }
     }
 }

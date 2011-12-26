@@ -91,6 +91,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="FilterBindingSyntax\FilterFilterBindingBuilder.cs" />
+    <Compile Include="FilterBindingSyntax\IConstructorArgumentSyntaxExtensions.cs" />
     <Compile Include="FilterBindingSyntax\IFilterBindingNamedSyntax.cs" />
     <Compile Include="FilterBindingSyntax\IFilterBindingOnSyntax.cs" />
     <Compile Include="FilterBindingSyntax\IFilterBindingWhenInNamedWithOrOnSyntax.cs" />

@@ -21,6 +21,10 @@ namespace SampleApplication.Controllers.FilterInjectionExamples
 {
     using System.Linq;
     using System.Web.Mvc;
+
+    using SampleApplication.Models.Movie;
+    using SampleApplication.Services.DistributedCacheService;
+
     using log4net;
     using Ninject.Activation;
     using Ninject.Modules;
@@ -40,9 +44,14 @@ namespace SampleApplication.Controllers.FilterInjectionExamples
             this.Bind<ILog>().ToMethod(GetLogger);
             this.BindFilter<LogFilter>(FilterScope.Controller, 0).WithConstructorArgument("prefix", "A: "); // Every action of the application is logged
             this.BindFilter<LogFilter>(FilterScope.Controller, 0).WithConstructorArgument("prefix", "B: "); // Every action of the application is logged
-            this.BindFilter<DistributedCacheFilter>(FilterScope.Action, 0)
-                .WhenActionMethodHas<CacheAttribute>() // Every action with the CacheAttribute is cached
-                .WithConstructorArgumentFromActionAttribute<CacheAttribute>("expirationTime", attribute => attribute.Duration);
+            this.BindFilter(
+                x => new DistributedCacheFilter(
+                     x.Inject<IDistributedCacheService>(),
+                     x.FromActionAttribute<CacheAttribute>().SelectValue(attribute => attribute.Duration)), 
+                     FilterScope.Action, 
+                     0)
+                .WhenActionMethodHas<CacheAttribute>();
+            this.Bind<MoviesEntities>().ToConstructor(x => new MoviesEntities());
         }
 
         /// <summary>

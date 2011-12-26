@@ -20,8 +20,10 @@
 namespace Ninject.Web.Mvc.FilterBindingSyntax
 {
     using System;
+    using System.Linq.Expressions;
     using System.Web.Mvc;
-    using Ninject.Parameters;
+
+    using Ninject.Planning.Bindings;
     using Ninject.Syntax;
     using Ninject.Web.Mvc.Filter;
 
@@ -49,11 +51,34 @@ namespace Ninject.Web.Mvc.FilterBindingSyntax
 
             var filterBinding = kernel.Bind<T>().ToSelf();
             filterBinding.WithMetadata(FilterIdMetadataKey, filterId);
-            
-            var ninjectFilterBinding = kernel.Bind<INinjectFilter>().To<NinjectFilter<T>>();
-            ninjectFilterBinding.BindingConfiguration.Parameters.Add(new ConstructorArgument("scope", scope));
-            ninjectFilterBinding.BindingConfiguration.Parameters.Add(new ConstructorArgument("order", order));
-            ninjectFilterBinding.BindingConfiguration.Parameters.Add(new ConstructorArgument("filterId", filterId));
+
+            var ninjectFilterBinding = kernel.Bind<INinjectFilter>().ToConstructor<NinjectFilter<T>>(
+                x => new NinjectFilter<T>(x.Inject<IKernel>(), scope, order, filterId));
+            return new FilterFilterBindingBuilder<T>(ninjectFilterBinding, filterBinding);
+        }
+
+        /// <summary>
+        /// Indicates that the service should be bound to the specified constructor.
+        /// </summary>
+        /// <typeparam name="T">The type of the implementation.</typeparam>
+        /// <param name="kernel">The kernel.</param>
+        /// <param name="newExpression">The expression that specifies the constructor.</param>
+        /// <param name="scope">The scope.</param>
+        /// <param name="order">The order.</param>
+        /// <returns>The fluent syntax.</returns>
+        public static IFilterBindingWhenInNamedWithOrOnSyntax<T> BindFilter<T>(
+            this IBindingRoot kernel, 
+            Expression<Func<IConstructorArgumentSyntax, T>> newExpression,
+            FilterScope scope, 
+            int? order)
+        {
+            var filterId = Guid.NewGuid();
+
+            var filterBinding = kernel.Bind<T>().ToConstructor(newExpression);
+            filterBinding.WithMetadata(FilterIdMetadataKey, filterId);
+
+            var ninjectFilterBinding = kernel.Bind<INinjectFilter>().ToConstructor<NinjectFilter<T>>(
+                x => new NinjectFilter<T>(x.Inject<IKernel>(), scope, order, filterId));
             return new FilterFilterBindingBuilder<T>(ninjectFilterBinding, filterBinding);
         }
     }
