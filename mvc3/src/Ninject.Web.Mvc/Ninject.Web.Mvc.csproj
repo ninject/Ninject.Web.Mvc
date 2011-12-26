@@ -90,6 +90,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="FilterBindingSyntax\AttributeValueSelector.cs" />
     <Compile Include="FilterBindingSyntax\FilterFilterBindingBuilder.cs" />
     <Compile Include="FilterBindingSyntax\IConstructorArgumentSyntaxExtensions.cs" />
     <Compile Include="FilterBindingSyntax\IFilterBindingNamedSyntax.cs" />

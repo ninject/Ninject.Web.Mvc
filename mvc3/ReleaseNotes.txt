@@ -1,6 +1,7 @@
 Version 3.0.0.0
 ---------------
 - Added: Multiple filters of the same type can be used at the same time. This allows using differently configured filters of the same type.
+- Added: BindToFilter overload that allows selection of the constructor and to specify which value to use from an attribue with out using magic strings.
 - Changed: This extension requires now Ninject.Web.Common. This allows combining it with the other web extesnions (WCF + MVC)
 
 Version 2.2.2.0

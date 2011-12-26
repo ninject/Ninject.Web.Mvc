@@ -47,7 +47,7 @@ namespace SampleApplication.Controllers.FilterInjectionExamples
             this.BindFilter(
                 x => new DistributedCacheFilter(
                      x.Inject<IDistributedCacheService>(),
-                     x.FromActionAttribute<CacheAttribute>().SelectValue(attribute => attribute.Duration)), 
+                     x.FromActionAttribute<CacheAttribute>().GetValue(attribute => attribute.Duration)), 
                      FilterScope.Action, 
                      0)
                 .WhenActionMethodHas<CacheAttribute>();
