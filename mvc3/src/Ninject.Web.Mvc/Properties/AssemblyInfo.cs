@@ -19,3 +19,4 @@
 using System.Reflection;
 
 [assembly: AssemblyTitle("Ninject ASP.NET MVC Integration")]
+[assembly: AssemblyDescriptionAttribute("Extension for Ninject providing integration with ASP.NET MVC3")]

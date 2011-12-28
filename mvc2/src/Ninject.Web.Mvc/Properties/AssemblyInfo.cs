@@ -17,6 +17,8 @@ using System.Reflection;
 using System.Security;
 
 [assembly: AssemblyTitle("Ninject ASP.NET MVC Integration")]
+[assembly: AssemblyDescriptionAttribute("Extension for Ninject providing integration with ASP.NET MVC2")]
+
 #if !NO_PARTIAL_TRUST
 [assembly: AllowPartiallyTrustedCallers]
 #endif

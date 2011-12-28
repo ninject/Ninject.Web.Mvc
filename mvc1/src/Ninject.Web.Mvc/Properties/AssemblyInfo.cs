@@ -15,8 +15,11 @@
 // limitations under the License.
 #endregion
 #region Using Directives
+using System.Reflection;
 using System.Security;
 #endregion
+
+[assembly: AssemblyDescriptionAttribute("Extension for Ninject providing integration with ASP.NET MVC1")]
 
 #if !NO_PARTIAL_TRUST
 [assembly: AllowPartiallyTrustedCallers]
