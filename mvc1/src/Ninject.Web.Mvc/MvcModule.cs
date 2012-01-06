@@ -27,13 +27,14 @@ namespace Ninject.Web.Mvc
     /// <summary>
     /// The mvc nodule
     /// </summary>
-    public class MvcModule : NinjectModule
+    public class MvcModule : GlobalKernelRegistrationModule<OnePerRequestHttpModule>
     {
         /// <summary>
         /// Loads the module into the kernel.
         /// </summary>
         public override void Load()
         {
+            base.Load();
             this.Kernel.Components.Add<INinjectHttpApplicationPlugin, NinjectMvcHttpApplicationPlugin>();
 
             this.Bind<RouteCollection>().ToConstant(RouteTable.Routes);

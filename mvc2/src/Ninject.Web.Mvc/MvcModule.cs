@@ -29,13 +29,14 @@ namespace Ninject.Web.Mvc
     /// <summary>
     /// Defines the bindings and plugins of the MVC web extension.
     /// </summary>
-    public class MvcModule : NinjectModule
+    public class MvcModule : GlobalKernelRegistrationModule<OnePerRequestHttpModule>
     {
         /// <summary>
         /// Loads the module into the kernel.
         /// </summary>
         public override void Load()
         {
+            base.Load();
             this.Kernel.Components.Add<INinjectHttpApplicationPlugin, NinjectMvcHttpApplicationPlugin>();
             
             this.Kernel.Components.RemoveAll<IMissingBindingResolver>();
