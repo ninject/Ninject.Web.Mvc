@@ -5,8 +5,8 @@
 	<property name="product.company" value="bbv Software Services AG" overwrite="false"/>
 	<property name="product.duration" value="2011" overwrite="false"/>
 	<property name="product.description" value="Ninject support for MVC3" overwrite="false"/>
-	<property name="product.platforms" value="net-4.0"  overwrite="false"/>
-	<property name="product.buildserverPlatforms" value="net-4.0,net-4.5"  overwrite="false"/>
+	<property name="product.platforms" value="net-4.0,net-4.5"  overwrite="false"/>
+	<property name="product.buildserverPlatforms" value="net-4.0"  overwrite="false"/>
 	<property name="product.packagePostfix" value="3" overwrite="false"/>
 	<property name="dependencies" value="Ninject,Ninject.Web.Common"  overwrite="false"/>
 
