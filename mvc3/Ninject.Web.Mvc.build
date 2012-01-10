@@ -6,7 +6,7 @@
 	<property name="product.duration" value="2011" overwrite="false"/>
 	<property name="product.description" value="Ninject support for MVC3" overwrite="false"/>
 	<property name="product.platforms" value="net-4.0"  overwrite="false"/>
-	<property name="product.buildserverPlatforms" value="net-4.0"  overwrite="false"/>
+	<property name="product.buildserverPlatforms" value="net-4.0,net-4.5"  overwrite="false"/>
 	<property name="product.packagePostfix" value="3" overwrite="false"/>
 	<property name="dependencies" value="Ninject,Ninject.Web.Common"  overwrite="false"/>
 
@@ -18,7 +18,7 @@
 	<target name="nuget-all" depends="nuget-mvc3"/>
 
 	<target name="core" depends="init">
-		<csc noconfig="true" warnaserror="true" target="library" debug="${build.debug}" optimize="${build.optimize}" define="${build.defines}" output="${current.path.build}/${product.assembly}" doc="${current.path.build}/${product.docfile}" keyfile="${path.src}/${product.keyfile}">
+		<csc noconfig="true" nostdlib="true" warnaserror="true" target="library" debug="${build.debug}" optimize="${build.optimize}" define="${build.defines}" output="${current.path.build}/${product.assembly}" doc="${current.path.build}/${product.docfile}" keyfile="${path.src}/${product.keyfile}">
 			<arg line="/filealign:512" unless="${nant.settings.currentframework == 'mono-2.0'}"/>
 			<sources basedir="${path.src}">
 				<include name="${build.asminfo}"/>
