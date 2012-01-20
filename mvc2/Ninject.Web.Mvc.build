@@ -2,11 +2,11 @@
 <project name="Ninject" default="build">
 	<property name="version" value="2.2.0.0" overwrite="true"/>
 	<property name="product.name" value="Ninject.Web.Mvc" overwrite="false"/>
-	<property name="product.company" value="Enkari, Ltd." overwrite="false"/>
-	<property name="product.duration" value="2008-2011" overwrite="false"/>
+	<property name="product.company" value="Ninject Project Contributors" overwrite="false"/>
+	<property name="product.duration" value="2008-2012" overwrite="false"/>
 	<property name="product.description" value="Ninject support for MVC" overwrite="false"/>
-	<property name="product.platforms" value="net-3.5,net-4.0,net-4.5,mono-2.0"  overwrite="false"/>
-	<property name="product.buildserverPlatforms" value="net-3.5,net-4.0,mono-2.0"  overwrite="false"/>
+	<property name="product.platforms" value="net-3.5,net-4.0,mono-2.0,mono-3.5,mono-4.0"  overwrite="false"/>
+	<property name="product.buildserverPlatforms" value="net-3.5,net-4.0,mono-2.0,mono-3.5,mono-4.0"  overwrite="false"/>
 	<property name="product.packagePostfix" value="2" overwrite="false"/>
 	<property name="dependencies" value="Ninject,Ninject.Web.Common"  overwrite="false"/>
 
@@ -18,7 +18,7 @@
 	<target name="nuget-all" depends="nuget"/>
 
 	<target name="core" depends="init">
-		<csc noconfig="true" nostdlib="true" warnaserror="true" target="library" debug="${build.debug}" optimize="${build.optimize}" define="${build.defines}" output="${current.path.build}/${product.assembly}" doc="${current.path.build}/${product.docfile}" keyfile="${path.src}/${product.keyfile}">
+		<csc noconfig="true" warnaserror="true" target="library" debug="${build.debug}" optimize="${build.optimize}" define="${build.defines}" output="${current.path.build}/${product.assembly}" doc="${current.path.build}/${product.docfile}" keyfile="${path.src}/${product.keyfile}">
 			<arg line="/filealign:512" unless="${nant.settings.currentframework == 'mono-2.0'}"/>
 			<sources basedir="${path.src}">
 				<include name="${build.asminfo}"/>
@@ -29,9 +29,9 @@
 				<include name="System.dll"/>
 				<include name="System.Core.dll"/>
 				<include name="System.Web.dll"/>
-				<include name="${path.lib}/ReferenceAssemblies/${build.platform}/System.Web.Abstractions.dll"/>
+				<include name="System.Web.Abstractions.dll"/>
 				<include name="${path.lib}/Mvc2/System.Web.Mvc.dll"/>
-				<include name="${path.lib}/ReferenceAssemblies/${build.platform}/System.Web.Routing.dll"/>
+				<include name="System.Web.Routing.dll"/>
 				<include name="${path.lib}/Ninject/${build.platform}/Ninject.dll"/>
 				<include name="${path.lib}/Ninject.Web.Common/${build.platform}/Ninject.Web.Common.dll"/>
 			</references>
