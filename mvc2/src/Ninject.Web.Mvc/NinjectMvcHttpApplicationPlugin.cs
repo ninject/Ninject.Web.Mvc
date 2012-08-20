@@ -22,6 +22,7 @@ namespace Ninject.Web.Mvc
     using System.Web;
     using System.Web.Mvc;
 
+	using Ninject.Activation;
     using Ninject.Components;
     using Ninject.Web.Common;
 
@@ -47,13 +48,11 @@ namespace Ninject.Web.Mvc
         /// <summary>
         /// Gets the request scope.
         /// </summary>
-        /// <value>The request scope.</value>
-        public object RequestScope
+        /// <param name="context">The context.</param>
+        /// <returns>The request scope.</returns>
+        public object GetRequestScope(IContext context)
         {
-            get
-            {
-                return HttpContext.Current;
-            }
+            return HttpContext.Current;
         }
         
         /// <summary>
