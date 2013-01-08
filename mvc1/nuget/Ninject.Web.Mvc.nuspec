@@ -14,7 +14,7 @@
 	<projectUrl>http://www.ninject.org</projectUrl>
     <dependencies>
       <dependency id="Ninject" version="2.2.0.0" />
-      <dependency id="Ninject.Web.Common" version="2.2.0.0" />
+      <dependency id="Ninject.Web.Common.WebHost" version="3.0.0.0" />
     </dependencies> 
   </metadata>
 </package>
