@@ -606,7 +606,7 @@
 		<if test="${not(nuget.project == '')}">
 			<exec program="${path.tools.nuget}" workingdir="${nuget.basedir}" commandline="pack ${nuget.project} -symbols" />
 			<unzip zipfile="${nuget.basedir}\${nuget.packageName}.${nuget.version}.nupkg" todir="${nuget.symbol.basedir}/target"/>
-			<unzip zipfile="${nuget.basedir}\${nuget.packageName}.${version.major}.${version.minor}.0.0.symbols.nupkg" todir="${nuget.symbol.basedir}/source"/>
+			<unzip zipfile="${nuget.basedir}\${nuget.name}.${version.major}.${version.minor}.0.0.symbols.nupkg" todir="${nuget.symbol.basedir}/source"/>
 			<copy overwrite="false" todir="${nuget.symbol.basedir}/target">
 				<fileset basedir="${nuget.symbol.basedir}/source">
 					<include name="[Content_Types].xml" />
