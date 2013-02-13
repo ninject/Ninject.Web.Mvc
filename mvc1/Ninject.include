@@ -27,6 +27,7 @@
 	<property name="product.assembly.silverlighttest" value="${product.name}.SilverlightTests.xap" overwrite="false"/>
 	<property name="product.assembly.silverlighttestdll" value="${product.name}.SilverlightTests.dll" overwrite="false"/>
 	<property name="product.additionalVersionTag" value="" overwrite="false"/>
+	<property name="nuget.apiKey" value="" overwrite="false"/>
 	<property name="product.clsCompliant" value="true" overwrite="false"/>
 	<property name="product.packagePostfix" value="" overwrite="false"/>
 	
@@ -192,7 +193,7 @@
 	</target>
 
 	<target name="config-build-release">
-		<property name="build.debug" value="true"/>
+		<property name="build.debug" value="PdbOnly"/>
 		<property name="build.optimize" value="true" overwrite="false"/>
 		<property name="global.build.defines" value="TRACE,STRONG"/>
 	</target>
@@ -509,7 +510,7 @@
 		
 		<property name="nuget.platform" value=""/>
 		<property name="nuget.version" value="${build.version}" if="${product.additionalVersionTag == ''}"/>
-		<property name="nuget.version" value="${version.major}.${version.minor}.${version.build}${product.additionalVersionTag}" unless="${product.additionalVersionTag == ''}"/>
+		<property name="nuget.version" value="${version.major}.${version.minor}.${version.build}${product.additionalVersionTag}-${version.revision}" unless="${product.additionalVersionTag == ''}"/>
 		
 		<call target="config-build-${build.config}"/>
 		<foreach item="String" in="${nuget.platforms}" delim="," property="platform">
@@ -594,17 +595,18 @@
 			</xmlpoke>
 		</foreach>
 
-		<exec program="${path.tools.nuget}" workingdir="${nuget.basedir}" commandline="pack ${nuget.basedir}\${nuget.name}.nuspec" />
+		<exec program="${path.tools.nuget}" workingdir="${nuget.basedir}" commandline="pack ${nuget.basedir}\${nuget.name}.nuspec -Exclude **\*.pdb" />
 		<move todir="${path.dist}\NuGet\">
 			<fileset basedir="${nuget.basedir}">
 				<include name="*.nupkg" />
 			</fileset>
 		</move>
 		
+		<exec program="${path.tools.nuget}" workingdir="${nuget.basedir}" commandline="pack ${nuget.basedir}\${nuget.name}.nuspec" />
 		<if test="${not(nuget.project == '')}">
 			<exec program="${path.tools.nuget}" workingdir="${nuget.basedir}" commandline="pack ${nuget.project} -symbols" />
-			<unzip zipfile="${path.dist}\NuGet\${nuget.packageName}.${nuget.version}.nupkg" todir="${nuget.symbol.basedir}/target"/>
-			<unzip zipfile="${nuget.basedir}\${nuget.name}.${version.major}.${version.minor}.0.0.symbols.nupkg" todir="${nuget.symbol.basedir}/source"/>
+			<unzip zipfile="${nuget.basedir}\${nuget.packageName}.${nuget.version}.nupkg" todir="${nuget.symbol.basedir}/target"/>
+			<unzip zipfile="${nuget.basedir}\${nuget.packageName}.${version.major}.${version.minor}.0.0.symbols.nupkg" todir="${nuget.symbol.basedir}/source"/>
 			<copy overwrite="false" todir="${nuget.symbol.basedir}/target">
 				<fileset basedir="${nuget.symbol.basedir}/source">
 					<include name="[Content_Types].xml" />
@@ -616,6 +618,9 @@
 					<include name="**"/>
 				</fileset>
 			</zip>
+		</if>
+		<if test="${not(nuget.apiKey == '')}">
+			<exec program="${path.tools.nuget}" workingdir="${path.dist}\NuGet\" commandline="push ${nuget.packageName}.${nuget.version}.nupkg ${nuget.apiKey} -NonInteractive" failonerror="false"/>
 		</if>
 	</target>
 	
