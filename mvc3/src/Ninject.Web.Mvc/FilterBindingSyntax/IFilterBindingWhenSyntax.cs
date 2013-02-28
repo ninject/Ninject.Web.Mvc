@@ -60,6 +60,22 @@ namespace Ninject.Web.Mvc.FilterBindingSyntax
         IFilterBindingInNamedWithOrOnSyntax<T> WhenActionMethodHas<TAttribute>();
 
         /// <summary>
+        /// Indicates that the binding should be used only when the action method has
+        /// no attribute of the specified type.
+        /// </summary>
+        /// <param name="attributeType">Type of the attribute.</param>
+        /// <returns>The fluent syntax to define more information</returns>
+        IFilterBindingInNamedWithOrOnSyntax<T> WhenActionMethodHasNo(Type attributeType);
+
+        /// <summary>
+        /// Indicates that the binding should be used only when the action method has
+        /// no attribute of the specified type.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
+        /// <returns>The fluent syntax to define more information</returns>
+        IFilterBindingInNamedWithOrOnSyntax<T> WhenActionMethodHasNo<TAttribute>();
+
+        /// <summary>
         /// Indicates that the binding should be used only when the controller has
         /// an attribute of the specified type.
         /// </summary>
@@ -75,6 +91,22 @@ namespace Ninject.Web.Mvc.FilterBindingSyntax
         /// <returns>The fluent syntax to define more information</returns>
         IFilterBindingInNamedWithOrOnSyntax<T> WhenControllerHas<TAttribute>();
 
+        /// <summary>
+        /// Indicates that the binding should be used only when the controller has
+        /// no attribute of the specified type.
+        /// </summary>
+        /// <param name="attributeType">Type of the attribute.</param>
+        /// <returns>The fluent syntax to define more information</returns>
+        IFilterBindingInNamedWithOrOnSyntax<T> WhenControllerHasNo(Type attributeType);
+
+        /// <summary>
+        /// Indicates that the binding should be used only when the controller has
+        /// no attribute of the specified type.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
+        /// <returns>The fluent syntax to define more information</returns>
+        IFilterBindingInNamedWithOrOnSyntax<T> WhenControllerHasNo<TAttribute>();
+        
         /// <summary>
         /// Whens the type of the controller.
         /// </summary>

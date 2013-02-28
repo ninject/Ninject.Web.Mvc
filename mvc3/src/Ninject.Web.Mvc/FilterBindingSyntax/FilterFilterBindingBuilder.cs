@@ -151,6 +151,31 @@ namespace Ninject.Web.Mvc.FilterBindingSyntax
         }
 
         /// <summary>
+        /// Indicates that the binding should be used only when the action method has
+        /// no attribute of the specified type.
+        /// </summary>
+        /// <param name="attributeType">Type of the attribute.</param>
+        /// <returns>The fluent syntax to define more information</returns>
+        public IFilterBindingInNamedWithOrOnSyntax<T> WhenActionMethodHasNo(Type attributeType)
+        {
+            this.When((controllerContext, actionDescriptor) =>
+                !actionDescriptor.GetCustomAttributes(attributeType, true).Any());
+            return this;
+        }
+
+        /// <summary>
+        /// Indicates that the binding should be used only when the action method has
+        /// no attribute of the specified type.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
+        /// <returns>The fluent syntax to define more information</returns>
+        public IFilterBindingInNamedWithOrOnSyntax<T> WhenActionMethodHasNo<TAttribute>()
+        {
+            this.WhenActionMethodHasNo(typeof(TAttribute));
+            return this;
+        }
+        
+        /// <summary>
         /// Indicates that the binding should be used only when the controller has
         /// an attribute of the specified type.
         /// </summary>
@@ -175,6 +200,31 @@ namespace Ninject.Web.Mvc.FilterBindingSyntax
             return this;
         }
 
+        /// <summary>
+        /// Indicates that the binding should be used only when the controller has
+        /// no attribute of the specified type.
+        /// </summary>
+        /// <param name="attributeType">Type of the attribute.</param>
+        /// <returns>The fluent syntax to define more information</returns>
+        public IFilterBindingInNamedWithOrOnSyntax<T> WhenControllerHasNo(Type attributeType)
+        {
+            this.When((controllerContext, actionDescriptor) =>
+                !actionDescriptor.ControllerDescriptor.GetCustomAttributes(attributeType, true).Any());
+            return this;
+        }
+
+        /// <summary>
+        /// Indicates that the binding should be used only when the controller has
+        /// no attribute of the specified type.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
+        /// <returns>The fluent syntax to define more information</returns>
+        public IFilterBindingInNamedWithOrOnSyntax<T> WhenControllerHasNo<TAttribute>()
+        {
+            this.WhenControllerHasNo(typeof(TAttribute));
+            return this;
+        }
+        
         /// <summary>
         /// Whens the type of the controller.
         /// </summary>
