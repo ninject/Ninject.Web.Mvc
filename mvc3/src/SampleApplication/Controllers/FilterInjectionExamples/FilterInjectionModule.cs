@@ -51,6 +51,9 @@ namespace SampleApplication.Controllers.FilterInjectionExamples
                      FilterScope.Action, 
                      0)
                 .WhenActionMethodHas<CacheAttribute>();
+            this.BindFilter<LogFilter>(FilterScope.Action, 0)
+                .WhenActionMethodHas<LogAttribute>()
+                .WithConstructorArgumentFromActionAttribute<LogAttribute>("prefix", a => a.Prefix);
             this.Bind<MoviesEntities>().ToConstructor(x => new MoviesEntities());
         }
 

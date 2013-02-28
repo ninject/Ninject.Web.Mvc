@@ -47,6 +47,8 @@ namespace SampleApplication.Controllers.FilterInjectionExamples
         /// </summary>
         /// <returns>The movie index view.</returns>
         [Cache(0, 0, 5, 0)]
+        [Log("Index")]
+        [Log("Filter")]
         public ActionResult Index()
         {
             return this.View(this.moviesEntities.Movies.ToList());

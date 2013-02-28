@@ -19,6 +19,7 @@
 
 namespace Ninject.Web.Mvc.Filter
 {
+    using System.Collections.Generic;
     using System.Web.Mvc;
 
     /// <summary>
@@ -27,10 +28,10 @@ namespace Ninject.Web.Mvc.Filter
     public interface INinjectFilter
     {
         /// <summary>
-        /// Builds the filter instance.
+        /// Builds the filter instances.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
-        /// <returns>The created filter.</returns>
-        Filter BuildFilter(FilterContextParameter parameter);
+        /// <returns>The created filters.</returns>
+        IEnumerable<Filter> BuildFilters(FilterContextParameter parameter);
     }
 }

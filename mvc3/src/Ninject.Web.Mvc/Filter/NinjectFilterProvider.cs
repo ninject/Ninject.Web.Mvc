@@ -51,7 +51,7 @@ namespace Ninject.Web.Mvc.Filter
         public IEnumerable<Filter> GetFilters(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
         {
             var parameter = new FilterContextParameter(controllerContext, actionDescriptor);
-            return this.kernel.GetAll<INinjectFilter>(parameter).Select(filter => filter.BuildFilter(parameter));
+            return this.kernel.GetAll<INinjectFilter>(parameter).SelectMany(filter => filter.BuildFilters(parameter));
         }
     }
 }

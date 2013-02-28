@@ -424,10 +424,19 @@ namespace Ninject.Web.Mvc.FilterBindingSyntax
             string name,
             Func<TAttribute, object> callback)
         {
+            this.ninjectFilterBindingSyntax.WithPropertyValue(
+                "NumberOfFilters", 
+                ctx =>
+                {
+                    var filterContext = (FilterContextParameter)ctx.Parameters.Single(p => p is FilterContextParameter);
+                    return filterContext.ActionDescriptor.GetCustomAttributes(typeof(TAttribute), true).Count();                    
+                });
+
             return this.WithConstructorArgument(
                 name,
                 (ctx, controllerContext, actionDescriptor) =>
-                callback((TAttribute)actionDescriptor.GetCustomAttributes(typeof(TAttribute), true).Single()));
+                callback((TAttribute)actionDescriptor.GetCustomAttributes(typeof(TAttribute), true)
+                    .Skip(GetFilterContextParameter(ctx).AttributePosition).First()));
         }
 
         /// <summary>
@@ -442,10 +451,19 @@ namespace Ninject.Web.Mvc.FilterBindingSyntax
         /// </returns>
         public IFilterBindingWithOrOnSyntax<T> WithConstructorArgumentFromControllerAttribute<TAttribute>(string name, Func<TAttribute, object> callback)
         {
+            this.ninjectFilterBindingSyntax.WithPropertyValue(
+                "NumberOfFilters",
+                ctx =>
+                {
+                    var filterContext = (FilterContextParameter)ctx.Parameters.Single(p => p is FilterContextParameter);
+                    return filterContext.ActionDescriptor.ControllerDescriptor.GetCustomAttributes(typeof(TAttribute), true).Count();
+                }); 
+            
             return this.WithConstructorArgument(
                 name,
                 (ctx, controllerContext, actionDescriptor) =>
-                callback((TAttribute)actionDescriptor.ControllerDescriptor.GetCustomAttributes(typeof(TAttribute), true).Single()));
+                callback((TAttribute)actionDescriptor.ControllerDescriptor.GetCustomAttributes(typeof(TAttribute), true)
+                    .Skip(GetFilterContextParameter(ctx).AttributePosition).First()));
         }
 
         /// <summary>

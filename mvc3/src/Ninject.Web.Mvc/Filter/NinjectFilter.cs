@@ -20,6 +20,7 @@
 namespace Ninject.Web.Mvc.Filter
 {
     using System;
+    using System.Collections.Generic;
     using System.Web.Mvc;
 
     using Ninject.Web.Mvc.FilterBindingSyntax;
@@ -45,6 +46,9 @@ namespace Ninject.Web.Mvc.Filter
         /// </summary>
         private readonly int? order;
 
+        /// <summary>
+        /// The id fo the filter.
+        /// </summary>
         private readonly Guid filterId;
 
         /// <summary>
@@ -60,19 +64,30 @@ namespace Ninject.Web.Mvc.Filter
             this.scope = scope;
             this.order = order;
             this.filterId = filterId;
+            this.NumberOfFilters = 1;
         }
 
         /// <summary>
-        /// Builds the filter instance.
+        /// Gets or sets the number of filters created by this instance.
+        /// </summary>
+        /// <value>The number of filters.</value>
+        public int NumberOfFilters { get; set; }
+
+        /// <summary>
+        /// Builds the filter instances.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
-        /// <returns>The created filter.</returns>
-        public Filter BuildFilter(FilterContextParameter parameter)
+        /// <returns>The created filters.</returns>
+        public IEnumerable<Filter> BuildFilters(FilterContextParameter parameter)
         {
-            return new Filter(
-                this.kernel.Get<T>(m => m.Get(BindingRootExtensions.FilterIdMetadataKey, Guid.Empty).Equals(this.filterId), parameter), 
-                this.scope, 
-                this.order);
+            for (int i = 0; i < this.NumberOfFilters; i++)
+            {
+                parameter.AttributePosition = i;
+                yield return new Filter(
+                    this.kernel.Get<T>(m => m.Get(BindingRootExtensions.FilterIdMetadataKey, Guid.Empty).Equals(this.filterId), parameter),
+                    this.scope,
+                    this.order);                
+            }
         }
     }
 }

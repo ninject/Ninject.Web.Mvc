@@ -45,6 +45,12 @@ namespace Ninject.Web.Mvc.Filter
         }
 
         /// <summary>
+        /// Gets or sets the position of the attribute used to get constructor values from.
+        /// </summary>
+        /// <value>The attribute position.</value>
+        public int AttributePosition { get; set; }
+
+        /// <summary>
         /// Gets the controller context.
         /// </summary>
         /// <value>The controller context.</value>

@@ -78,6 +78,7 @@
     <Compile Include="Controllers\FilterInjectionExamples\ClearCacheOnSuccessAttribute.cs" />
     <Compile Include="Controllers\FilterInjectionExamples\DistributedCacheFilter.cs" />
     <Compile Include="Controllers\FilterInjectionExamples\FilterInjectionModule.cs" />
+    <Compile Include="Controllers\FilterInjectionExamples\LogAttribute.cs" />
     <Compile Include="Controllers\FilterInjectionExamples\MovieController.cs" />
     <Compile Include="Controllers\ViewInjectionExample\InjectedWebViewPage.cs" />
     <Compile Include="Controllers\ViewInjectionExample\MathController.cs" />
