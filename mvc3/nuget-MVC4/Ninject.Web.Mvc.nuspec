@@ -6,8 +6,8 @@
     <authors>Remo Gloor, Ian Davis</authors>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>https://github.com/ninject/ninject.web.mvc/raw/master/mvc3/LICENSE.txt</licenseUrl>
-    <description>Extension for Ninject providing integration with ASP.NET MVC3</description>
-    <summary>Extension for Ninject providing integration with ASP.NET MVC3</summary>
+    <description>Extension for Ninject providing integration with ASP.NET MVC4</description>
+    <summary>Extension for Ninject providing integration with ASP.NET MVC4</summary>
     <language>en-US</language>
     <tags>Ninject ioc di web mvc4</tags>
     <iconUrl>https://github.com/ninject/ninject/raw/master/logos/Ninject-Logo32.png</iconUrl>
