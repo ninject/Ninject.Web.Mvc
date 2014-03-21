@@ -1,4 +1,4 @@
-Version 3.0.2.0
+Version 3.2.0
 ---------------
 - Added: WhenActionMethodHasNo and WhenControllerHasNo conditions to the filter binding syntax
 - Added: Support for adding multiple filters of the same type to an action method using attributes
