@@ -17,6 +17,8 @@
 // </copyright>
 //-------------------------------------------------------------------------------
 
+using Ninject.Modules;
+
 namespace Ninject.Web.Mvc
 {
     using System.Web;
@@ -30,21 +32,17 @@ namespace Ninject.Web.Mvc
     /// <summary>
     /// Defines the bindings and plugins of the MVC web extension.
     /// </summary>
-    public class MvcModule: GlobalKernelRegistrationModule<OnePerRequestHttpModule>
+    public class MvcModule : NinjectModule
     {
         /// <summary>
         /// Loads the module into the kernel.
         /// </summary>
         public override void Load()
         {
-            base.Load();
             this.Kernel.Components.Add<INinjectHttpApplicationPlugin, NinjectMvcHttpApplicationPlugin>();
             this.Kernel.Bind<IDependencyResolver>().To<NinjectDependencyResolver>();
             this.Kernel.Bind<IFilterProvider>().To<NinjectFilterAttributeFilterProvider>();
             this.Kernel.Bind<IFilterProvider>().To<NinjectFilterProvider>();
-            this.Kernel.Bind<RouteCollection>().ToConstant(RouteTable.Routes);
-            this.Kernel.Bind<HttpContext>().ToMethod(ctx => HttpContext.Current).InTransientScope();
-            this.Kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InTransientScope();
             this.Kernel.Bind<ModelValidatorProvider>().To<NinjectDataAnnotationsModelValidatorProvider>();
             //this.Kernel.Bind<IModelBinderProvider>().To<NinjectModelBinderProvider>();
             //this.Kernel.Bind<IModelBinder>().To<NinjectModelBinder>();

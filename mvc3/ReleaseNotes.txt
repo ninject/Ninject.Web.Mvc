@@ -1,3 +1,7 @@
+Version 3.2.1
+---------------
+Moved common bindings to Ninject.Web.Common so that multiple web extensions can be used together.
+
 Version 3.2.0
 ---------------
 - Added: WhenActionMethodHasNo and WhenControllerHasNo conditions to the filter binding syntax
