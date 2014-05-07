@@ -37,7 +37,7 @@ namespace Ninject.Web.Mvc
         /// <summary>
         /// Loads the module into the kernel.
         /// </summary>
-        public override void Load()
+        public override void InternalLoad()
         {
             this.Kernel.Components.Add<INinjectHttpApplicationPlugin, NinjectMvcHttpApplicationPlugin>();
             this.Kernel.Bind<IDependencyResolver>().To<NinjectDependencyResolver>();
