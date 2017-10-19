@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net45</TargetFrameworks>
+    <Version>0.0.0</Version>
+    <Authors>Remo Gloor, Ian Davis, Ninject Contributors</Authors>
+    <Company>Ninject Project Contributors</Company>
+    <Product>Ninject ASP.NET MVC Integration</Product>
+    <Description>Extension for Ninject providing integration with ASP.NET MVC5</Description>
+    <Copyright>2010 bbv Software Services AG. 2010-2017 Ninject Contributors.</Copyright>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyOriginatorKeyFile>..\Ninject.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+    <PackageId>Ninject.MVC5</PackageId>
+    <PackageVersion>0.0.0</PackageVersion>
+    <PackageTags>IoC;DI;Ninject;Web;ASP.NET;MVC</PackageTags>
+    <PackageProjectUrl>http://www.ninject.org/</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/ninject/Ninject.Web.Mvc/blob/master/CHANGELOG.md</PackageReleaseNotes>
+    <PackageIconUrl>https://github.com/ninject/ninject/raw/master/logos/Ninject-Logo32.png</PackageIconUrl>
+    <PackageLicenseUrl>https://github.com/ninject/Ninject.Web.Mvc/raw/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/ninject/Ninject.Web.Mvc</RepositoryUrl>
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Web" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.3" />
+    <PackageReference Include="Ninject.Web.Common.WebHost" Version="3.3.0-beta1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

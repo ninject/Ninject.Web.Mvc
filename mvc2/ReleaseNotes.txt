@@ -1,3 +1,0 @@
-Version 3.0.0.0
----------------
-- Changed: This extension requires now Ninject.Web.Common. This allows combining it with the other web extesnions (WCF + MVC)

@@ -1,3 +1,0 @@
-<project name="NinjectMain" default="all">
-	<include buildfile="Ninject.Web.Mvc.build" />
-</project>

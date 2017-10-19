@@ -1,0 +1,16 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "documentationRules": {
+      "companyName": "Ninject Project Contributors",
+      "copyrightText": "  Copyright (c) 2010 bbv Software Services AG.\r\n  Copyright (c) 2010-2017 Ninject Contributors.\r\n  Licensed under the Apache License, Version 2.0, and the Microsoft Public License (Ms-PL).",
+      "headerDecoration": "-------------------------------------------------------------------------------------------------"
+    },
+    "layoutRules": {
+      "newlineAtEndOfFile": "omit"
+    },
+    "orderingRules": {
+      "blankLinesBetweenUsingGroups": "require"
+    }
+  }
+}
