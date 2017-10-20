@@ -31,7 +31,7 @@ build:
   verbosity: minimal
 
 artifacts:
-  - path: '**\*.nupkg'
+  - path: 'src\**\*.nupkg'
 
 deploy:
   provider: NuGet
