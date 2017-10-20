@@ -21,16 +21,17 @@ dotnet_csproj:
 
 cache:
   - '%LocalAppData%\NuGet\v3-cache -> **\*.csproj'
+  - packages -> **\packages.config
 
 before_build:
-  - dotnet restore --verbosity quiet
+  - nuget restore -Verbosity quiet
 
 build:
   parallel: true
   verbosity: minimal
 
 artifacts:
-  - path: '**\*.nupkg'
+  - path: 'src\**\*.nupkg'
 
 deploy:
   provider: NuGet
