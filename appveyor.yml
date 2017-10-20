@@ -21,9 +21,10 @@ dotnet_csproj:
 
 cache:
   - '%LocalAppData%\NuGet\v3-cache -> **\*.csproj'
+  - packages -> **\packages.config
 
 before_build:
-  - dotnet restore --verbosity quiet
+  - nuget restore -Verbosity quiet
 
 build:
   parallel: true
