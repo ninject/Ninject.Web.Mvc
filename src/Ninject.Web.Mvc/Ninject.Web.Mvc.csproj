@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFrameworks>net45</TargetFrameworks>
     <Version>0.0.0</Version>
-    <Authors>Remo Gloor, Ian Davis, Ninject Contributors</Authors>
+    <Authors>Ninject Project Contributors</Authors>
     <Company>Ninject Project Contributors</Company>
     <Product>Ninject ASP.NET MVC Integration</Product>
     <Description>Extension for Ninject providing integration with ASP.NET MVC5</Description>
-    <Copyright>2010 bbv Software Services AG. 2010-2017 Ninject Contributors.</Copyright>
+    <Copyright>2010 bbv Software Services AG. 2010-2017 Ninject Project Contributors.</Copyright>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyOriginatorKeyFile>..\Ninject.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
@@ -38,7 +38,7 @@
   <ItemGroup>
     <Reference Include="System.Web" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.3" />
-    <PackageReference Include="Ninject.Web.Common.WebHost" Version="3.3.0-beta1" />
+    <PackageReference Include="Ninject.Web.Common.WebHost" Version="3.3.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>

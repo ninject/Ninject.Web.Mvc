@@ -1,5 +1,5 @@
-// -------------------------------------------------------------------------------------------------
-// <copyright file="IFilterBindingWithOrOnSyntax.cs" company="Ninject Project Contributors">
+﻿// -------------------------------------------------------------------------------------------------
+// <copyright file="AssemblyInfo.cs" company="Ninject Project Contributors">
 //   Copyright (c) 2010 bbv Software Services AG. All rights reserved.
 //   Copyright (c) 2010-2017 Ninject Project Contributors. All rights reserved.
 //
@@ -19,15 +19,6 @@
 // </copyright>
 // -------------------------------------------------------------------------------------------------
 
-namespace Ninject.Web.Mvc.FilterBindingSyntax
-{
-    /// <summary>
-    /// Used to add additional information or actions to a binding.
-    /// </summary>
-    /// <typeparam name="T">The service being bound.</typeparam>
-    public interface IFilterBindingWithOrOnSyntax<out T> :
-        IFilterBindingWithSyntax<T>,
-        IFilterBindingOnSyntax<T>
-    {
-    }
-}
+using System;
+
+[assembly: CLSCompliant(true)]
